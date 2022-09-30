@@ -75,6 +75,9 @@ def main():
             pX = 480
             pY = 270
 
+            coinX = randint(40, 920)
+            coinY = randint(40, 500)
+
             score = font.render(str(scoreInt), True, pygame.Color(255,255,255))
 
             TbulletedXList.clear()
@@ -102,12 +105,12 @@ def main():
 
                 if event.type == pygame.USEREVENT:
                     TbulletedXList.append(randint(20, 940))
-                    TbulletedYList.append(0)
+                    TbulletedYList.append(-25)
 
                     BbulletedXList.append(randint(20, 940))
                     BbulletedYList.append(540)
 
-                    LbulletedXList.append(0)
+                    LbulletedXList.append(-25)
                     LbulletedYList.append(randint(20, 520))
 
                     RbulletedXList.append(960)
@@ -120,16 +123,16 @@ def main():
                 if event.type == pygame.QUIT: done = True
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_w: isUp = True
-                    if event.key == pygame.K_s: isDown = True
-                    if event.key == pygame.K_a: isLeft = True
-                    if event.key == pygame.K_d: isRight = True
+                    if event.key == pygame.K_w or event.key == pygame.K_UP: isUp = True
+                    if event.key == pygame.K_s or event.key == pygame.K_DOWN: isDown = True
+                    if event.key == pygame.K_a or event.key == pygame.K_LEFT: isLeft = True
+                    if event.key == pygame.K_d or event.key == pygame.K_RIGHT: isRight = True
 
                 if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_w: isUp = False
-                    if event.key == pygame.K_s: isDown = False
-                    if event.key == pygame.K_a: isLeft = False
-                    if event.key == pygame.K_d: isRight = False
+                    if event.key == pygame.K_w or event.key == pygame.K_UP: isUp = False
+                    if event.key == pygame.K_s or event.key == pygame.K_DOWN: isDown = False
+                    if event.key == pygame.K_a or event.key == pygame.K_LEFT: isLeft = False
+                    if event.key == pygame.K_d or event.key == pygame.K_RIGHT: isRight = False
 
                 
 
@@ -164,7 +167,7 @@ def main():
             for b in BbulletedYList:
                 
                 pygame.draw.rect(screen, pygame.Color(255,0,0), pygame.Rect(BbulletedXList[BbulletedYList.index(b)], b, 25, 25))
-                if b < 0:
+                if b < -25:
                     BbulletedXList.remove(BbulletedXList[BbulletedYList.index(b)])
                     BbulletedYList.remove(b)
                 else:
@@ -173,7 +176,7 @@ def main():
             for b in RbulletedXList:
                 
                 pygame.draw.rect(screen, pygame.Color(255,0,0), pygame.Rect(b, RbulletedYList[RbulletedXList.index(b)], 25, 25))
-                if b < 0:
+                if b < -25:
                     RbulletedYList.remove(RbulletedYList[RbulletedXList.index(b)])
                     RbulletedXList.remove(b)
                 else:
@@ -182,7 +185,7 @@ def main():
             for b in LbulletedXList:
                 
                 pygame.draw.rect(screen, pygame.Color(255,0,0), pygame.Rect(b, LbulletedYList[LbulletedXList.index(b)], 25, 25))
-                if b < 0:
+                if b > 960:
                     LbulletedYList.remove(LbulletedYList[LbulletedXList.index(b)])
                     LbulletedXList.remove(b)
                 else:
