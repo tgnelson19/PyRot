@@ -1,12 +1,12 @@
 from math import pi
 from random import randint
-from xml.dom.minidom import Entity
 import pygame
 
 from bullet import bullet
 from entity import entity
 from boss import boss
 from bomb import bomb
+from phases import phases
 
 def main():
     pygame.init()
@@ -36,7 +36,7 @@ def main():
  
     clock = pygame.time.Clock()
 
-    pygame.time.set_timer(pygame.USEREVENT, 500)
+    pygame.time.set_timer(pygame.USEREVENT, 200)
 
     entityList = []
 
@@ -58,11 +58,14 @@ def main():
     coinDead = True
     playerDead = True
 
-
+    phase = phases()
 
     while not done:
 
         if playerDead:
+
+            phase.reset()
+
             scoreInt = 0
 
             isUp = False
@@ -91,24 +94,23 @@ def main():
 
             clock.tick(60)
             pygame.display.flip()
+
+            phase.setPhaseName("firewalls")
+
         else:
 
             for event in pygame.event.get():
 
                 if event.type == pygame.USEREVENT:
                     
-                    newBullet = bullet()
-                    newBullet.setPosDirSpdSize( randint(20, 940), 0, 3*pi/2, randint(2,10)/2, randint(10, 40) )
-                    entityList.append(newBullet)
-                    newBullet2 = bullet()
-                    newBullet2.setPosDirSpdSize( randint(20, 940), 540, pi/2, randint(2,10)/2, randint(10, 40) )
-                    entityList.append(newBullet2)
-                    newBullet3 = bullet()
-                    newBullet3.setPosDirSpdSize( 0, randint(20, 520), 0, randint(2,10)/2, randint(10, 40) )
-                    entityList.append(newBullet3)
-                    newBullet4 = bullet()
-                    newBullet4.setPosDirSpdSize( 940, randint(20, 520), pi, randint(2,10)/2, randint(10, 40) )
-                    entityList.append(newBullet4)
+                    
+                    if (phase.getPhaseName() == "patience"):
+                        
+                        phase.runPatience(entityList)
+
+                    elif (phase.getPhaseName() == "firewalls"):
+
+                        phase.runFirewall(entityList)
                     
                     
                 if event.type == pygame.QUIT: done = True
