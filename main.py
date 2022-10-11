@@ -95,7 +95,7 @@ def main():
             clock.tick(60)
             pygame.display.flip()
 
-            phase.setPhaseName("firewalls")
+            phase.setPhaseName("patience")
 
         else:
 
