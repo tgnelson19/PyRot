@@ -1,5 +1,12 @@
+from math import pi
 from random import randint
+from xml.dom.minidom import Entity
 import pygame
+
+from bullet import bullet
+from entity import entity
+from boss import boss
+from bomb import bomb
 
 def main():
     pygame.init()
@@ -31,20 +38,11 @@ def main():
 
     pygame.time.set_timer(pygame.USEREVENT, 500)
 
-    TbulletedXList = []
-    TbulletedYList = []
-
-    RbulletedXList = []
-    RbulletedYList = []
-
-    LbulletedXList = []
-    LbulletedYList = []
-    
-    BbulletedXList = []
-    BbulletedYList = []
+    entityList = []
 
     pX = 480
     pY = 270
+    pSize = 25
 
     coinX = 0
     coinY = 0
@@ -75,19 +73,13 @@ def main():
             pX = 480
             pY = 270
 
-            coinX = randint(40, 920)
-            coinY = randint(40, 500)
+            coinX = randint(200, 720)
+            coinY = randint(100, 400)
 
             score = font.render(str(scoreInt), True, pygame.Color(255,255,255))
 
-            TbulletedXList.clear()
-            TbulletedYList.clear()
-            RbulletedXList.clear()
-            RbulletedYList.clear()
-            LbulletedXList.clear()
-            LbulletedYList.clear()
-            BbulletedXList.clear()
-            BbulletedYList.clear()
+            entityList.clear()
+            
 
             screen.fill(pygame.Color(255,255,255))
             screen.blit(start, startRect)
@@ -104,21 +96,20 @@ def main():
             for event in pygame.event.get():
 
                 if event.type == pygame.USEREVENT:
-                    TbulletedXList.append(randint(20, 940))
-                    TbulletedYList.append(-25)
-
-                    BbulletedXList.append(randint(20, 940))
-                    BbulletedYList.append(540)
-
-                    LbulletedXList.append(-25)
-                    LbulletedYList.append(randint(20, 520))
-
-                    RbulletedXList.append(960)
-                    RbulletedYList.append(randint(20, 520))
-
-                
-
-                
+                    
+                    newBullet = bullet()
+                    newBullet.setPosDirSpdSize( randint(20, 940), 0, 3*pi/2, randint(2,10)/2, randint(10, 40) )
+                    entityList.append(newBullet)
+                    newBullet2 = bullet()
+                    newBullet2.setPosDirSpdSize( randint(20, 940), 540, pi/2, randint(2,10)/2, randint(10, 40) )
+                    entityList.append(newBullet2)
+                    newBullet3 = bullet()
+                    newBullet3.setPosDirSpdSize( 0, randint(20, 520), 0, randint(2,10)/2, randint(10, 40) )
+                    entityList.append(newBullet3)
+                    newBullet4 = bullet()
+                    newBullet4.setPosDirSpdSize( 940, randint(20, 520), pi, randint(2,10)/2, randint(10, 40) )
+                    entityList.append(newBullet4)
+                    
                     
                 if event.type == pygame.QUIT: done = True
 
@@ -150,73 +141,20 @@ def main():
             if pY < 0: pY = 0
 
 
-            
-            
-            
-            
-            
-            for b in TbulletedYList:
+            for e in entityList:
+                if e.contact(pX, pY):
+                    playerDead = True
+                e.update()
+                if (e.isAlive == False):
+                    entityList.remove(e)
+                e.draw(screen)
                 
-                pygame.draw.rect(screen, pygame.Color(255,0,0), pygame.Rect(TbulletedXList[TbulletedYList.index(b)], b, 25, 25))
-                if b > 540:
-                    TbulletedXList.remove(TbulletedXList[TbulletedYList.index(b)])
-                    TbulletedYList.remove(b)
-                else:
-                    TbulletedYList[TbulletedYList.index(b)] = b + 2
-
-            for b in BbulletedYList:
                 
-                pygame.draw.rect(screen, pygame.Color(255,0,0), pygame.Rect(BbulletedXList[BbulletedYList.index(b)], b, 25, 25))
-                if b < -25:
-                    BbulletedXList.remove(BbulletedXList[BbulletedYList.index(b)])
-                    BbulletedYList.remove(b)
-                else:
-                    BbulletedYList[BbulletedYList.index(b)] = b - 2
-
-            for b in RbulletedXList:
-                
-                pygame.draw.rect(screen, pygame.Color(255,0,0), pygame.Rect(b, RbulletedYList[RbulletedXList.index(b)], 25, 25))
-                if b < -25:
-                    RbulletedYList.remove(RbulletedYList[RbulletedXList.index(b)])
-                    RbulletedXList.remove(b)
-                else:
-                    RbulletedXList[RbulletedXList.index(b)] = b - 2
-
-            for b in LbulletedXList:
-                
-                pygame.draw.rect(screen, pygame.Color(255,0,0), pygame.Rect(b, LbulletedYList[LbulletedXList.index(b)], 25, 25))
-                if b > 960:
-                    LbulletedYList.remove(LbulletedYList[LbulletedXList.index(b)])
-                    LbulletedXList.remove(b)
-                else:
-                    LbulletedXList[LbulletedXList.index(b)] = b + 2
-
 
             if coinDead:
-                coinX = randint(40, 920)
-                coinY = randint(40, 500)
+                coinX = randint(200, 760)
+                coinY = randint(100, 440)
                 coinDead = False
-
-            for b in BbulletedXList:
-                if abs(b - pX) < 25:
-                    if abs(BbulletedYList[BbulletedXList.index(b)] - pY) < 25:
-                        playerDead = True
-
-            for b in TbulletedXList:
-                if abs(b - pX) < 25:
-                    if abs(TbulletedYList[TbulletedXList.index(b)] - pY) < 25:
-                        playerDead = True
-
-            for b in RbulletedXList:
-                if abs(b - pX) < 25:
-                    if abs(RbulletedYList[RbulletedXList.index(b)] - pY) < 25:
-                        playerDead = True
-
-            for b in LbulletedXList:
-                if abs(b - pX) < 25:
-                    if abs(LbulletedYList[LbulletedXList.index(b)] - pY) < 25:
-                        playerDead = True
-
 
             if abs(pX - coinX) < 25:
                 if abs(pY-coinY) < 25:
@@ -228,7 +166,7 @@ def main():
 
             pygame.draw.rect(screen, pygame.Color(255,255,0), pygame.Rect(coinX, coinY, 25, 25))    
             
-            pygame.draw.rect(screen, pygame.Color(0,0,255), pygame.Rect(pX, pY, 25, 25))
+            pygame.draw.rect(screen, pygame.Color(0,0,255), pygame.Rect(pX, pY, pSize, pSize))
 
             screen.blit(score, scoreRect)
                     
