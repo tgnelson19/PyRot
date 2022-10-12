@@ -97,9 +97,9 @@ def main():
 
             bossi = boss()
 
-            entityList.append(bossi)
+            
 
-            phase.setPhaseName("thirdcounter")
+            phase.setPhaseName("testing")
 
         else:
 
@@ -117,7 +117,9 @@ def main():
                         phase.runFastMinigun(entityList, bossi)
                     elif (phase.getPhaseName() == "thirdcounter"):
                         phase.runThirdCounter(entityList, bossi)
-                    
+                    elif (phase.getPhaseName() == "testing"):
+                        phase.runTesting(entityList, bossi)
+
                 if event.type == pygame.QUIT: done = True
 
                 if event.type == pygame.KEYDOWN:

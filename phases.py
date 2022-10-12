@@ -13,6 +13,7 @@ class phases:
         self.fireWallSpeed = 4
         self.minigunCounter = 0
         self.leucCounter = 0
+        self.overallCounter = 0
 
     def reset(self):
         self.phaseName = "nothing"
@@ -22,6 +23,7 @@ class phases:
         self.fireWallSpeed = 4
         self.minigunCounter = 0
         self.leucCounter = 0
+        self.overallCounter = 0
 
     def setPhaseName(self, phaseName):
         self.phaseName = phaseName
@@ -199,3 +201,28 @@ class phases:
         else:
             self.leucCounter = 0
             self.phaseName = "patience"
+
+    def runTesting(self, entityList, bossi):
+        pygame.time.set_timer(pygame.USEREVENT, 200)
+        if self.overallCounter < 4:
+            newBullet = bullet()
+            newBullet.setPosDirSpdSize( 0, 200 + self.overallCounter* 20, 0, 3, 25 )
+            newBullet.setBFunction("sinusoid", 0,1+ self.overallCounter)
+            entityList.append(newBullet)
+            newBullet1 = bullet()
+            newBullet1.setPosDirSpdSize( 0, 200 + self.overallCounter* 20, 0, 3, 25 )
+            newBullet1.setBFunction("sinusoid", -5, -1 - self.overallCounter)
+            entityList.append(newBullet1)
+            self.overallCounter += 1
+        elif self.overallCounter < 8:
+            newBullet = bullet()
+            newBullet.setPosDirSpdSize( 0, 200 - self.overallCounter* 20, 0, 3, 25 )
+            newBullet.setBFunction("sinusoid", 0,5- self.overallCounter)
+            entityList.append(newBullet)
+            newBullet1 = bullet()
+            newBullet1.setPosDirSpdSize( 0, 200 - self.overallCounter* 20, 0, 3, 25 )
+            newBullet1.setBFunction("sinusoid", -5, -5 + self.overallCounter)
+            entityList.append(newBullet1)
+            self.overallCounter += 1
+        else:
+            self.overallCounter = 0

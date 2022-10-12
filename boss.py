@@ -28,7 +28,7 @@ class boss(entity):
             self.speed = 0
 
     def goToPos(self, x, y):
-        if abs(self.posX - x) > self.trueSpeed or abs(self.posY - y + 25) > self.trueSpeed:
+        if abs(self.posX - x) > self.trueSpeed or abs(self.posY - y + 25) > self.trueSpeed and not self.posX - x == 0:
             self.speed = 2
             self.dir = atan((self.posY - y + 25)/(self.posX - x))
             if (self.posY - y)*(self.posX - x) < 0:

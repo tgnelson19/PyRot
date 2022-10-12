@@ -1,4 +1,5 @@
 from math import cos, sin, pi
+from bulletFunction import bulletFunction
 import pygame
 
 
@@ -12,6 +13,8 @@ class entity:
         self.size = 25
         self.hue = pygame.Color(255,255,255)
         self.name = "none"
+        self.bFunction = bulletFunction()
+        
         
 
     def setPos(self, x, y):
@@ -34,9 +37,20 @@ class entity:
         self.speed = speed
         self.size = size
 
+    def setBFunction(self, name, xamp, yamp):
+        self.bFunction.setNameAndStuff(name, xamp, yamp, 0, 0)
+
+
     def update(self):
-        self.posX +=  self.speed*cos(self.dir)
-        self.posY -=  self.speed*sin(self.dir)
+        if (self.bFunction.getName() == "nothing"):
+            self.posX +=  self.speed*cos(self.dir)
+            self.posY -=  self.speed*sin(self.dir)
+        else:
+            self.posX += self.speed*cos(self.dir)
+            self.posY -= self.bFunction.getYAmp()*sin(self.bFunction.getTicker())
+            self.bFunction.upTicker()
+
+
         if (self.posX) < (0 - self.size) or (self.posX) > (960 + self.size) or (self.posY) < (0 - self.size) or (self.posY) > (540 + self.size):
             self.isAlive = False
 

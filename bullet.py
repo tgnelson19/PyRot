@@ -1,4 +1,5 @@
 from entity import entity
+from bulletFunction import bulletFunction
 import pygame
 
 class bullet(entity):
@@ -12,5 +13,6 @@ class bullet(entity):
         self.hue= pygame.Color(255,0,0)
         self.speed = 0
         self.size = 25
+        self.bFunction = bulletFunction()
 
     
