@@ -1,5 +1,6 @@
 from bullet import bullet
 from random import randint
+from boss import boss
 from math import pi
 import pygame
 
@@ -28,7 +29,8 @@ class phases:
     def getPhaseName(self):
         return self.phaseName
 
-    def runPatience(self, entityList):
+    def runPatience(self, entityList, bossi):
+        bossi.goToCenter()
         pygame.time.set_timer(pygame.USEREVENT, 200)
         if self.patienceCounter < 10 and self.patienceCounter % 2 == 0:
             newBullet = bullet()
@@ -66,7 +68,8 @@ class phases:
             self.patienceCounter = 0
             self.phaseName = "firewalls"
 
-    def runFirewall(self, entityList):
+    def runFirewall(self, entityList, bossi):
+        bossi.goToCenter()
         pygame.time.set_timer(pygame.USEREVENT, 200)
         if self.wallCounter < 7:
             for i in range(12):
@@ -117,11 +120,12 @@ class phases:
             self.phaseName = "slowminigun"
 
 
-    def runSlowMinigun(self, entityList):
-
+    def runSlowMinigun(self, entityList, bossi):
+        
         pygame.time.set_timer(pygame.USEREVENT, 30)
 
         if self.minigunCounter < 100 :
+            bossi.goToPos(480,0)
             newBullet = bullet()
             newBullet.setPosDirSpdSize( 480, 0, pi + pi/100 + (pi/100)*self.minigunCounter, randint(4,8)/2, 25 )
             entityList.append(newBullet)
@@ -131,6 +135,7 @@ class phases:
             self.minigunCounter +=1
 
         elif self.minigunCounter < 230 :
+            bossi.goToPos(480,540)
             newBullet = bullet()
             newBullet.setPosDirSpdSize( 480, 540, (pi/100) + ((pi/100)*self.minigunCounter - 130), randint(4,8)/2, 25 )
             entityList.append(newBullet)
@@ -141,11 +146,12 @@ class phases:
             self.minigunCounter = 0
             self.phaseName = "fastminigun"
 
-    def runFastMinigun(self, entityList):
+    def runFastMinigun(self, entityList, bossi):
 
         pygame.time.set_timer(pygame.USEREVENT, 50)
 
         if self.minigunCounter < 20 :
+            bossi.goToPos(480,0)
             newBullet = bullet()
             newBullet.setPosDirSpdSize( 480, 0, pi + pi/20 + (pi/20)*self.minigunCounter, randint(4,8)/2, 25 )
             entityList.append(newBullet)
@@ -175,7 +181,8 @@ class phases:
             self.minigunCounter = 0
             self.phaseName = "thirdcounter"
 
-    def runThirdCounter(self, entityList):
+    def runThirdCounter(self, entityList, bossi):
+        bossi.goToCenter()
         pygame.time.set_timer(pygame.USEREVENT, 800)
         if self.leucCounter < 10 :
             safespot = randint(8,20)

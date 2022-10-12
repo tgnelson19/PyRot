@@ -95,6 +95,10 @@ def main():
             clock.tick(60)
             pygame.display.flip()
 
+            bossi = boss()
+
+            entityList.append(bossi)
+
             phase.setPhaseName("thirdcounter")
 
         else:
@@ -104,15 +108,15 @@ def main():
                 if event.type == pygame.USEREVENT:
                     
                     if (phase.getPhaseName() == "patience"):
-                        phase.runPatience(entityList)
+                        phase.runPatience(entityList, bossi)
                     elif (phase.getPhaseName() == "firewalls"):
-                        phase.runFirewall(entityList)
+                        phase.runFirewall(entityList, bossi)
                     elif (phase.getPhaseName() == "slowminigun"):
-                        phase.runSlowMinigun(entityList)
+                        phase.runSlowMinigun(entityList, bossi)
                     elif (phase.getPhaseName() == "fastminigun"):
-                        phase.runFastMinigun(entityList)
+                        phase.runFastMinigun(entityList, bossi)
                     elif (phase.getPhaseName() == "thirdcounter"):
-                        phase.runThirdCounter(entityList)
+                        phase.runThirdCounter(entityList, bossi)
                     
                 if event.type == pygame.QUIT: done = True
 

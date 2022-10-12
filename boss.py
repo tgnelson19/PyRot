@@ -5,19 +5,36 @@ import pygame
 class boss(entity):
 
     def __init__(self):
-        self.posX = 0
-        self.posY = 0
+        self.posX = 250
+        self.posY = 250
         self.hue = pygame.Color(0,255,0)
         self.dir = 0
         self.name = "boss"
         self.speed = 2
+        self.size = 25
+        self.isAlive = True
+        self.trueSpeed = 2
 
-    def isAtCenter(self):
-        if self.posX - 480 > self.speed and self.posY - 270 > self.speed:
+    def goToCenter(self):
+        if (self.posX - 480) > self.trueSpeed and (self.posY - 270) > self.trueSpeed:
+            self.speed = 2
             self.dir = atan((self.posY - 270)/(self.posX - 480))
-            if (self.posY - 270)*(self.posX - 480) < 0:
+            if ((self.posY - 270)*(self.posX - 480)) <= 0:
                 self.dir = -atan((self.posY - 270)/(self.posX - 480))
         else:
             self.posX = 480
             self.poxY = 270
-            return True
+            self.dir = 0
+            self.speed = 0
+
+    def goToPos(self, x, y):
+        if abs(self.posX - x) > self.trueSpeed or abs(self.posY - y + 25) > self.trueSpeed:
+            self.speed = 2
+            self.dir = atan((self.posY - y + 25)/(self.posX - x))
+            if (self.posY - y)*(self.posX - x) < 0:
+                self.dir = atan((self.posY - y + 25)/(self.posX - x))
+        else:
+            self.posX = x
+            self.poxY = y + 25
+            self.dir = 0
+            self.speed = 0
