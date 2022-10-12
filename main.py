@@ -95,7 +95,7 @@ def main():
             clock.tick(60)
             pygame.display.flip()
 
-            phase.setPhaseName("patience")
+            phase.setPhaseName("thirdcounter")
 
         else:
 
@@ -103,15 +103,16 @@ def main():
 
                 if event.type == pygame.USEREVENT:
                     
-                    
                     if (phase.getPhaseName() == "patience"):
-                        
                         phase.runPatience(entityList)
-
                     elif (phase.getPhaseName() == "firewalls"):
-
                         phase.runFirewall(entityList)
-                    
+                    elif (phase.getPhaseName() == "slowminigun"):
+                        phase.runSlowMinigun(entityList)
+                    elif (phase.getPhaseName() == "fastminigun"):
+                        phase.runFastMinigun(entityList)
+                    elif (phase.getPhaseName() == "thirdcounter"):
+                        phase.runThirdCounter(entityList)
                     
                 if event.type == pygame.QUIT: done = True
 
@@ -127,8 +128,6 @@ def main():
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT: isLeft = False
                     if event.key == pygame.K_d or event.key == pygame.K_RIGHT: isRight = False
 
-                
-
             if isUp & isLeft | isUp & isRight | isDown & isLeft | isDown & isRight: directionalSpeed = trueSpeed * 0.707
             else: directionalSpeed = trueSpeed
 
@@ -142,7 +141,6 @@ def main():
             if pX < 0: pX = 0
             if pY < 0: pY = 0
 
-
             for e in entityList:
                 if e.contact(pX, pY):
                     playerDead = True
@@ -151,8 +149,6 @@ def main():
                     entityList.remove(e)
                 e.draw(screen)
                 
-                
-
             if coinDead:
                 coinX = randint(200, 760)
                 coinY = randint(100, 440)
@@ -164,8 +160,6 @@ def main():
                     scoreInt += 1
                     score = font.render(str(scoreInt), True, pygame.Color(255,255,255))
 
-            
-
             pygame.draw.rect(screen, pygame.Color(255,255,0), pygame.Rect(coinX, coinY, 25, 25))    
             
             pygame.draw.rect(screen, pygame.Color(0,0,255), pygame.Rect(pX, pY, pSize, pSize))
@@ -176,7 +170,6 @@ def main():
             pygame.display.flip()
             screen.fill(pygame.Color(0,0,0))
  
-    
     pygame.quit()
  
 if __name__ == "__main__":
