@@ -4,38 +4,26 @@ class bulletFunction():
 
     def __init__(self):
         self.name = "nothing"
-        self.xAmp = 0
-        self.yAmp = 0
-        self.xDer = 0
-        self.yDer = 0
+        self.amplitude = 0
+        self.frequency = 1
         self.ticker = 0
 
-    def setNameAndStuff(self, name, xamp, yamp, xder, yder):
+    def setNameAndStuff(self, name, amp, freq):
         self.name = name
-        self.xAmp = xamp
-        self.yAmp = yamp
-        self.xDer = xder
-        self.yDer = yder
-
-
+        self.amplitude = amp
+        self.frequency = freq
 
     def getName(self):
         return self.name
 
-    def getXAmp(self):
-        return self.xAmp
+    def getAmp(self):
+        return self.amplitude
 
-    def getYAmp(self):
-        return self.yAmp
-
-    def getXDer(self):
-        return self.xDer
-
-    def getYDer(self):
-        return self.yDer
+    def getFrequency(self):
+        return self.frequency
 
     def getTicker(self):
         return self.ticker
 
-    def upTicker(self):
-        self.ticker = self.ticker + 0.1
+    def upTicker(self, frequency):
+        self.ticker = self.ticker + frequency

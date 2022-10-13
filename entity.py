@@ -38,20 +38,20 @@ class entity:
         self.size = size
 
     def setBFunction(self, name, xamp, yamp):
-        self.bFunction.setNameAndStuff(name, xamp, yamp, 0, 0)
+        self.bFunction.setNameAndStuff(name, xamp, yamp)
 
 
     def update(self):
         if (self.bFunction.getName() == "nothing"):
             self.posX +=  self.speed*cos(self.dir)
             self.posY -=  self.speed*sin(self.dir)
-        else:
-            self.posX += self.speed*cos(self.dir)
-            self.posY -= self.bFunction.getYAmp()*sin(self.bFunction.getTicker())
-            self.bFunction.upTicker()
+        elif (self.bFunction.getName() == "sinusoid"):
+            self.posX += self.speed*cos(self.dir)  +  (self.bFunction.getAmp()*cos(self.bFunction.getTicker()))*sin(self.dir)
+            self.posY -= self.speed*sin(self.dir)  -  (self.bFunction.getAmp()*cos(self.bFunction.getTicker()))*cos(self.dir)
+            self.bFunction.upTicker(self.bFunction.getFrequency())
 
 
-        if (self.posX) < (0 - self.size) or (self.posX) > (960 + self.size) or (self.posY) < (0 - self.size) or (self.posY) > (540 + self.size):
+        if (self.posX) < (-100 - self.size) or (self.posX) > (100+ 960 + self.size) or (self.posY) < (-100 -0 - self.size) or (self.posY) > (100 + 540 + self.size):
             self.isAlive = False
 
     def draw(self, screen):

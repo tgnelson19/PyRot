@@ -99,7 +99,7 @@ def main():
 
             
 
-            phase.setPhaseName("testing")
+            phase.setPhaseName("leucsins")
 
         else:
 
@@ -119,6 +119,12 @@ def main():
                         phase.runThirdCounter(entityList, bossi)
                     elif (phase.getPhaseName() == "testing"):
                         phase.runTesting(entityList, bossi)
+                    elif (phase.getPhaseName() == "testing1"):
+                        phase.runTesting1(entityList, bossi)
+                    elif (phase.getPhaseName() == "wigglies"):
+                        phase.runTesting2(entityList, bossi)
+                    elif (phase.getPhaseName() == "leucsins"):
+                        phase.runLeucSins(entityList, bossi)
 
                 if event.type == pygame.QUIT: done = True
 

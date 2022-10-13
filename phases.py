@@ -1,3 +1,4 @@
+from tkinter import E
 from bullet import bullet
 from random import randint
 from boss import boss
@@ -34,7 +35,7 @@ class phases:
     def runPatience(self, entityList, bossi):
         bossi.goToCenter()
         pygame.time.set_timer(pygame.USEREVENT, 200)
-        if self.patienceCounter < 10 and self.patienceCounter % 2 == 0:
+        if self.patienceCounter < 40 and self.patienceCounter % 2 == 0:
             newBullet = bullet()
             newBullet.setPosDirSpdSize( randint(20, 940), 0, 3*pi/2, randint(4,6)/2, 25 )
             entityList.append(newBullet)
@@ -48,9 +49,9 @@ class phases:
             newBullet4.setPosDirSpdSize( 940, randint(20, 520), pi, randint(4,6)/2, 25 )
             entityList.append(newBullet4)
             self.patienceCounter +=1
-        elif self.patienceCounter < 25:
+        elif self.patienceCounter < 55:
             self.patienceCounter +=1
-        if self.patienceCounter < 35 and self.patienceCounter % 2 == 0:
+        if self.patienceCounter < 95 and self.patienceCounter % 2 == 0:
             newBullet = bullet()
             newBullet.setPosDirSpdSize( randint(20, 940), 0, 3*pi/2, randint(4,6)/2, 25 )
             entityList.append(newBullet)
@@ -64,7 +65,7 @@ class phases:
             newBullet4.setPosDirSpdSize( 940, randint(20, 520), pi, randint(4,6)/2, 25 )
             entityList.append(newBullet4)
             self.patienceCounter +=1
-        elif self.patienceCounter < 50:
+        elif self.patienceCounter < 110:
             self.patienceCounter +=1
         else:
             self.patienceCounter = 0
@@ -200,29 +201,85 @@ class phases:
             self.leucCounter += 1
         else:
             self.leucCounter = 0
-            self.phaseName = "patience"
+            self.phaseName = "leucsins"
 
     def runTesting(self, entityList, bossi):
-        pygame.time.set_timer(pygame.USEREVENT, 200)
-        if self.overallCounter < 4:
+        pygame.time.set_timer(pygame.USEREVENT, 300)
+        if self.overallCounter < 20:
             newBullet = bullet()
-            newBullet.setPosDirSpdSize( 0, 200 + self.overallCounter* 20, 0, 3, 25 )
-            newBullet.setBFunction("sinusoid", 0,1+ self.overallCounter)
+            newBullet.setPosDirSpdSize( 0, 40 + self.overallCounter* 20, 0, 3, 25 )
+            newBullet.setBFunction("sinusoid", 0,5)
             entityList.append(newBullet)
             newBullet1 = bullet()
-            newBullet1.setPosDirSpdSize( 0, 200 + self.overallCounter* 20, 0, 3, 25 )
-            newBullet1.setBFunction("sinusoid", -5, -1 - self.overallCounter)
+            newBullet1.setPosDirSpdSize( 0, 40 + self.overallCounter* 20, 0, 3, 25 )
+            newBullet1.setBFunction("sinusoid", 0, -5)
             entityList.append(newBullet1)
             self.overallCounter += 1
-        elif self.overallCounter < 8:
+        elif self.overallCounter < 40:
             newBullet = bullet()
-            newBullet.setPosDirSpdSize( 0, 200 - self.overallCounter* 20, 0, 3, 25 )
-            newBullet.setBFunction("sinusoid", 0,5- self.overallCounter)
+            newBullet.setPosDirSpdSize( 0, 440 - (self.overallCounter - 20)* 20, 0, 3, 25 )
+            newBullet.setBFunction("sinusoid", 0,5)
             entityList.append(newBullet)
             newBullet1 = bullet()
-            newBullet1.setPosDirSpdSize( 0, 200 - self.overallCounter* 20, 0, 3, 25 )
-            newBullet1.setBFunction("sinusoid", -5, -5 + self.overallCounter)
+            newBullet1.setPosDirSpdSize( 0, 440 - (self.overallCounter - 20)* 20, 0, 3, 25 )
+            newBullet1.setBFunction("sinusoid", -5, -5)
             entityList.append(newBullet1)
+            self.overallCounter += 1
+            if self.overallCounter == 39:
+                self.overallCounter = 0
+            
+    def makeAStraightShooter(self, entityList, xStart, yStart, dir, speed, size):
+        newBullet = bullet()
+        newBullet.setPosDirSpdSize( xStart, yStart, dir, speed, size )
+        entityList.append(newBullet)
+
+    def setNewTickSpeed(self, tSpeed): 
+        pygame.time.set_timer(pygame.USEREVENT, tSpeed)
+
+    def makeASinusoid(self, entityList, xStart, yStart, dir, speed, size, amplitude, frequency):
+        newBullet = bullet()
+        newBullet.setPosDirSpdSize( xStart, yStart, dir, speed, size )
+        newBullet.setBFunction("sinusoid", amplitude, frequency)
+        entityList.append(newBullet)
+
+    def runTesting1(self, entityList, bossi):
+        self.setNewTickSpeed(400)
+        if self.overallCounter < 20:
+            self.makeAStraightShooter(entityList, 0, 280, 0, 3, 25)
             self.overallCounter += 1
         else:
             self.overallCounter = 0
+
+    def runTesting2(self, entityList, bossi):
+        self.setNewTickSpeed(200)
+        if self.overallCounter < 20:
+            self.makeASinusoid(entityList, 500, 0, -pi/20 - (self.overallCounter*pi)/20, 3, 25, 4, 0.1)
+            self.overallCounter+=1
+        elif self.overallCounter < 40:
+            self.makeASinusoid(entityList, 500, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, 3, 25, 4, 0.1)
+            self.overallCounter +=1
+        else:
+            self.overallCounter = 0
+
+    def runLeucSins(self, entityList, bossi):
+        self.setNewTickSpeed(300)
+        amp = 6
+        freq = 0.075
+        spd = 6
+        if self.overallCounter < 20:
+            self.makeASinusoid(entityList, 500, 0, -pi/20 - (self.overallCounter*pi)/20, spd, 25, amp, freq )
+            self.makeASinusoid(entityList, 500, 0, -pi/20 - (self.overallCounter*pi)/20, spd, 25, -amp, freq )
+            #self.makeASinusoid(entityList, 500, 0, -pi/20 - (self.overallCounter*pi)/20, spd * 1.5, 25, amp/2, freq )
+            #self.makeASinusoid(entityList, 500, 0, -pi/20 - (self.overallCounter*pi)/20, spd * 1.5, 25, -amp/2, freq )
+            self.overallCounter+=1
+        elif self.overallCounter < 40:
+            self.makeASinusoid(entityList, 500, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd, 25, amp, freq )
+            self.makeASinusoid(entityList, 500, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd, 25, -amp, freq )
+            #self.makeASinusoid(entityList, 500, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd * 1.5, 25, amp/2, freq )
+            #self.makeASinusoid(entityList, 500, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd * 1.5, 25, -amp/2, freq )
+            self.overallCounter +=1
+        else:
+            self.overallCounter = 0
+            self.phaseName = "patience"
+        
+    
