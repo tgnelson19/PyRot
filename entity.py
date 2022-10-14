@@ -2,6 +2,9 @@ from math import cos, sin, pi
 from bulletFunction import bulletFunction
 import pygame
 
+sH = 1000
+sW = 1840
+
 
 class entity:
     def __init__(self):
@@ -51,7 +54,7 @@ class entity:
             self.bFunction.upTicker(self.bFunction.getFrequency())
 
 
-        if (self.posX) < (-100 - self.size) or (self.posX) > (100+ 960 + self.size) or (self.posY) < (-100 -0 - self.size) or (self.posY) > (100 + 540 + self.size):
+        if (self.posX) < (-100 - self.size) or (self.posX) > (100+ sW + self.size) or (self.posY) < (-100 -0 - self.size) or (self.posY) > (100 + sH + self.size):
             self.isAlive = False
 
     def draw(self, screen):

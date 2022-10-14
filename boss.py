@@ -2,6 +2,9 @@ from entity import entity
 from math import atan
 import pygame
 
+sH = 540
+sW = 960
+
 class boss(entity):
 
     def __init__(self):
@@ -16,14 +19,14 @@ class boss(entity):
         self.trueSpeed = 2
 
     def goToCenter(self):
-        if (self.posX - 480) > self.trueSpeed and (self.posY - 270) > self.trueSpeed:
+        if (self.posX - sW/2) > self.trueSpeed and (self.posY - sH/2) > self.trueSpeed:
             self.speed = 2
-            self.dir = atan((self.posY - 270)/(self.posX - 480))
-            if ((self.posY - 270)*(self.posX - 480)) <= 0:
-                self.dir = -atan((self.posY - 270)/(self.posX - 480))
+            self.dir = atan((self.posY - sH/2)/(self.posX - sW/2))
+            if ((self.posY - sH/2)*(self.posX - sW/2)) <= 0:
+                self.dir = -atan((self.posY - sH/2)/(self.posX - sW/2))
         else:
-            self.posX = 480
-            self.poxY = 270
+            self.posX = sW/2
+            self.poxY = sH/2
             self.dir = 0
             self.speed = 0
 

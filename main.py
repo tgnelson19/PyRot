@@ -8,10 +8,13 @@ from boss import boss
 from bomb import bomb
 from phases import phases
 
+sH = 1000
+sW = 1840
+
 def main():
     pygame.init()
  
-    size = [960, 540]
+    size = [sW, sH]
     screen = pygame.display.set_mode(size)
  
     pygame.display.set_caption("PyRot")
@@ -20,15 +23,15 @@ def main():
 
     score = font.render('0', True, pygame.Color(255,255,255))
     scoreRect = score.get_rect()
-    scoreRect.center = (900, 20)
+    scoreRect.center = (sW - 60, 20)
 
     start = font.render('MicroDodging', True, pygame.Color(0,0,0))
     startRect = score.get_rect()
-    startRect.center = (280, 270)
+    startRect.center = (280, sH/2)
 
     instructions = font.render('Press Any Key To Play', True, pygame.Color(0,0,0))
     instructionsRect = score.get_rect()
-    instructionsRect.center = (280, 320)
+    instructionsRect.center = (280, sH/2 + 50)
 
     scoreInt = 0
 
@@ -40,8 +43,8 @@ def main():
 
     entityList = []
 
-    pX = 480
-    pY = 270
+    pX = sW/2
+    pY = sH/2
     pSize = 25
 
     coinX = 0
@@ -73,11 +76,11 @@ def main():
             isLeft = False
             isRight = False
 
-            pX = 480
-            pY = 270
+            pX = sW/2
+            pY = sH/2
 
-            coinX = randint(200, 720)
-            coinY = randint(100, 400)
+            coinX = randint(200, sW-200)
+            coinY = randint(100, sH-100)
 
             score = font.render(str(scoreInt), True, pygame.Color(255,255,255))
 
@@ -148,8 +151,8 @@ def main():
             if isRight: pX += directionalSpeed
             if isLeft: pX -= directionalSpeed
 
-            if pX > 935: pX = 935
-            if pY > 515: pY = 515
+            if pX > sW-pSize: pX = sW-pSize
+            if pY > sH-pSize: pY = sH-pSize
             if pX < 0: pX = 0
             if pY < 0: pY = 0
 
@@ -162,8 +165,8 @@ def main():
                 e.draw(screen)
                 
             if coinDead:
-                coinX = randint(200, 760)
-                coinY = randint(100, 440)
+                coinX = randint(200, sW-200)
+                coinY = randint(100, sH-100)
                 coinDead = False
 
             if abs(pX - coinX) < 25:

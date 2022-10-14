@@ -5,6 +5,9 @@ from boss import boss
 from math import pi
 import pygame
 
+sH = 1000
+sW = 1840
+
 class phases:
     def __init__(self):
         self.phaseName = "nothing"
@@ -37,32 +40,32 @@ class phases:
         pygame.time.set_timer(pygame.USEREVENT, 200)
         if self.patienceCounter < 40 and self.patienceCounter % 2 == 0:
             newBullet = bullet()
-            newBullet.setPosDirSpdSize( randint(20, 940), 0, 3*pi/2, randint(4,6)/2, 25 )
+            newBullet.setPosDirSpdSize( randint(20, sW - 20), 0, 3*pi/2, randint(4,6)/2, 25 )
             entityList.append(newBullet)
             newBullet2 = bullet()
-            newBullet2.setPosDirSpdSize( randint(20, 940), 540, pi/2, randint(4,6)/2, 25 )
+            newBullet2.setPosDirSpdSize( randint(20, sW - 20), sH, pi/2, randint(4,6)/2, 25 )
             entityList.append(newBullet2)
             newBullet3 = bullet()
-            newBullet3.setPosDirSpdSize( 0, randint(20, 520), 0, randint(4,6)/2, 25 )
+            newBullet3.setPosDirSpdSize( 0, randint(20, sH - 20), 0, randint(4,6)/2, 25 )
             entityList.append(newBullet3)
             newBullet4 = bullet()
-            newBullet4.setPosDirSpdSize( 940, randint(20, 520), pi, randint(4,6)/2, 25 )
+            newBullet4.setPosDirSpdSize( sW - 20, randint(20, sH - 20), pi, randint(4,6)/2, 25 )
             entityList.append(newBullet4)
             self.patienceCounter +=1
         elif self.patienceCounter < 55:
             self.patienceCounter +=1
         if self.patienceCounter < 95 and self.patienceCounter % 2 == 0:
             newBullet = bullet()
-            newBullet.setPosDirSpdSize( randint(20, 940), 0, 3*pi/2, randint(4,6)/2, 25 )
+            newBullet.setPosDirSpdSize( randint(20, sW - 20), 0, 3*pi/2, randint(4,6)/2, 25 )
             entityList.append(newBullet)
             newBullet2 = bullet()
-            newBullet2.setPosDirSpdSize( randint(20, 940), 540, pi/2, randint(4,6)/2, 25 )
+            newBullet2.setPosDirSpdSize( randint(20, sW - 20), sH, pi/2, randint(4,6)/2, 25 )
             entityList.append(newBullet2)
             newBullet3 = bullet()
-            newBullet3.setPosDirSpdSize( 0, randint(20, 520), 0, randint(4,6)/2, 25 )
+            newBullet3.setPosDirSpdSize( 0, randint(20, sH - 20), 0, randint(4,6)/2, 25 )
             entityList.append(newBullet3)
             newBullet4 = bullet()
-            newBullet4.setPosDirSpdSize( 940, randint(20, 520), pi, randint(4,6)/2, 25 )
+            newBullet4.setPosDirSpdSize( sW - 20, randint(20, sH - 20), pi, randint(4,6)/2, 25 )
             entityList.append(newBullet4)
             self.patienceCounter +=1
         elif self.patienceCounter < 110:
@@ -80,7 +83,7 @@ class phases:
                 newBullet.setPosDirSpdSize(0, 10 + i*self.fireWallSpacing, 0, self.fireWallSpeed, 25)
                 entityList.append(newBullet)
                 newBullet1 = bullet()
-                newBullet1.setPosDirSpdSize(960, 45 + i*self.fireWallSpacing, pi, self.fireWallSpeed, 25)
+                newBullet1.setPosDirSpdSize(sW, 45 + i*self.fireWallSpacing, pi, self.fireWallSpeed, 25)
                 entityList.append(newBullet1)
             self.wallCounter += 1
         elif self.wallCounter < 11:
@@ -91,7 +94,7 @@ class phases:
                 newBullet.setPosDirSpdSize(0, 10 + i*self.fireWallSpacing, 0, self.fireWallSpeed, 25)
                 entityList.append(newBullet)
                 newBullet1 = bullet()
-                newBullet1.setPosDirSpdSize(960, 45 + i*self.fireWallSpacing, pi, self.fireWallSpeed, 25)
+                newBullet1.setPosDirSpdSize(sW, 45 + i*self.fireWallSpacing, pi, self.fireWallSpeed, 25)
                 entityList.append(newBullet1)
             self.wallCounter +=1
         elif self.wallCounter < 30:
@@ -102,7 +105,7 @@ class phases:
                 newBullet.setPosDirSpdSize(10 + i*self.fireWallSpacing, 0, 3*pi/2, self.fireWallSpeed, 25)
                 entityList.append(newBullet)
                 newBullet1 = bullet()
-                newBullet1.setPosDirSpdSize(45 + i*self.fireWallSpacing, 540, pi/2, self.fireWallSpeed, 25)
+                newBullet1.setPosDirSpdSize(45 + i*self.fireWallSpacing, sH, pi/2, self.fireWallSpeed, 25)
                 entityList.append(newBullet1)
             self.wallCounter +=1
         elif self.wallCounter < 41:
@@ -113,7 +116,7 @@ class phases:
                 newBullet.setPosDirSpdSize(10 + i*self.fireWallSpacing, 0, 3*pi/2, self.fireWallSpeed, 25)
                 entityList.append(newBullet)
                 newBullet1 = bullet()
-                newBullet1.setPosDirSpdSize(45 + i*self.fireWallSpacing, 540, pi/2, self.fireWallSpeed, 25)
+                newBullet1.setPosDirSpdSize(45 + i*self.fireWallSpacing, sH, pi/2, self.fireWallSpeed, 25)
                 entityList.append(newBullet1)
             self.wallCounter +=1
         elif self.wallCounter < 50:
@@ -128,9 +131,9 @@ class phases:
         pygame.time.set_timer(pygame.USEREVENT, 30)
 
         if self.minigunCounter < 100 :
-            bossi.goToPos(480,0)
+            bossi.goToPos(sW/2,0)
             newBullet = bullet()
-            newBullet.setPosDirSpdSize( 480, 0, pi + pi/100 + (pi/100)*self.minigunCounter, randint(4,8)/2, 25 )
+            newBullet.setPosDirSpdSize( sW/2, 0, pi + pi/100 + (pi/100)*self.minigunCounter, randint(4,8)/2, 25 )
             entityList.append(newBullet)
             self.minigunCounter +=1
 
@@ -138,9 +141,9 @@ class phases:
             self.minigunCounter +=1
 
         elif self.minigunCounter < 230 :
-            bossi.goToPos(480,540)
+            bossi.goToPos(sW/2,sH)
             newBullet = bullet()
-            newBullet.setPosDirSpdSize( 480, 540, (pi/100) + ((pi/100)*self.minigunCounter - 130), randint(4,8)/2, 25 )
+            newBullet.setPosDirSpdSize( sW/2, sH, (pi/100) + ((pi/100)*self.minigunCounter - 130), randint(4,8)/2, 25 )
             entityList.append(newBullet)
             self.minigunCounter +=1
         elif self.minigunCounter < 270:
@@ -154,27 +157,27 @@ class phases:
         pygame.time.set_timer(pygame.USEREVENT, 50)
 
         if self.minigunCounter < 20 :
-            bossi.goToPos(480,0)
+            bossi.goToPos(sW/2,0)
             newBullet = bullet()
-            newBullet.setPosDirSpdSize( 480, 0, pi + pi/20 + (pi/20)*self.minigunCounter, randint(4,8)/2, 25 )
+            newBullet.setPosDirSpdSize( sW/2, 0, pi + pi/20 + (pi/20)*self.minigunCounter, randint(4,8)/2, 25 )
             entityList.append(newBullet)
             self.minigunCounter +=1
 
         elif self.minigunCounter < 40:
             newBullet = bullet()
-            newBullet.setPosDirSpdSize( 480, 0, - pi/20 - (pi/20)*(self.minigunCounter -20), randint(4,8)/2, 25 )
+            newBullet.setPosDirSpdSize( sW/2, 0, - pi/20 - (pi/20)*(self.minigunCounter -20), randint(4,8)/2, 25 )
             entityList.append(newBullet)
             self.minigunCounter +=1
 
         elif self.minigunCounter < 60 :
             newBullet = bullet()
-            newBullet.setPosDirSpdSize( 480, 0, pi + pi/20 + (pi/20)*(self.minigunCounter-40), randint(4,8)/2, 25 )
+            newBullet.setPosDirSpdSize( sW/2, 0, pi + pi/20 + (pi/20)*(self.minigunCounter-40), randint(4,8)/2, 25 )
             entityList.append(newBullet)
             self.minigunCounter +=1
 
         elif self.minigunCounter < 80:
             newBullet = bullet()
-            newBullet.setPosDirSpdSize( 480, 0, - pi/20 - (pi/20)*(self.minigunCounter -60), randint(4,8)/2, 25 )
+            newBullet.setPosDirSpdSize( sW/2, 0, - pi/20 - (pi/20)*(self.minigunCounter -60), randint(4,8)/2, 25 )
             entityList.append(newBullet)
             self.minigunCounter +=1
 
