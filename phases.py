@@ -20,6 +20,7 @@ class phases:
         self.leucCounter = 0
         self.overallCounter = 0
         self.phaseList = ["patience", "firewalls", "slowminigun", "fastminigun", "thirdcounter", "leucsins"]
+        self.bossi = boss()
 
     def reset(self):
         self.wallCounter = 0
@@ -30,12 +31,33 @@ class phases:
         self.leucCounter = 0
         self.overallCounter = 0
         self.phaseList = ["patience", "firewalls", "slowminigun", "fastminigun", "thirdcounter", "leucsins"]
+        self.bossi = boss()
 
     def setPhaseName(self, phaseName):
         self.phaseName = phaseName
 
     def getPhaseName(self):
         return self.phaseName
+
+    def runPhase(self, entityList):
+        if (self.phaseName == "patience"):
+            self.runPatience(entityList, self.bossi)
+        elif (self.phaseName == "firewalls"):
+            self.runFirewall(entityList, self.bossi)
+        elif (self.phaseName == "slowminigun"):
+            self.runSlowMinigun(entityList, self.bossi)
+        elif (self.phaseName == "fastminigun"):
+            self.runFastMinigun(entityList, self.bossi)
+        elif (self.phaseName == "thirdcounter"):
+            self.runThirdCounter(entityList, self.bossi)
+        elif (self.phaseName == "testing"):
+            self.runTesting(entityList, self.bossi)
+        elif (self.phaseName == "testing1"):
+            self.runTesting1(entityList, self.bossi)
+        elif (self.phaseName == "wigglies"):
+            self.runTesting2(entityList, self.bossi)
+        elif (self.phaseName == "leucsins"):
+            self.runLeucSins(entityList, self.bossi)
 
     def phaseUp(self):
         if self.phaseList.index(self.phaseName) != len(self.phaseList) - 1:
