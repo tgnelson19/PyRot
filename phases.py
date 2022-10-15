@@ -3,14 +3,15 @@ from bullet import bullet
 from random import randint
 from boss import boss
 from math import pi
+from math import floor
 import pygame
 
-sH = 1000
-sW = 1840
+sH = 720
+sW = 1280
 
 class phases:
     def __init__(self):
-        self.phaseName = "nothing"
+        self.phaseName = "patience"
         self.wallCounter = 0
         self.patienceCounter = 0
         self.fireWallSpacing = 70
@@ -18,9 +19,9 @@ class phases:
         self.minigunCounter = 0
         self.leucCounter = 0
         self.overallCounter = 0
+        self.phaseList = ["patience", "firewalls", "slowminigun", "fastminigun", "thirdcounter", "leucsins"]
 
     def reset(self):
-        self.phaseName = "nothing"
         self.wallCounter = 0
         self.patienceCounter = 0
         self.fireWallSpacing = 70
@@ -28,12 +29,25 @@ class phases:
         self.minigunCounter = 0
         self.leucCounter = 0
         self.overallCounter = 0
+        self.phaseList = ["patience", "firewalls", "slowminigun", "fastminigun", "thirdcounter", "leucsins"]
 
     def setPhaseName(self, phaseName):
         self.phaseName = phaseName
 
     def getPhaseName(self):
         return self.phaseName
+
+    def phaseUp(self):
+        if self.phaseList.index(self.phaseName) != len(self.phaseList) - 1:
+            self.phaseName = self.phaseList[self.phaseList.index(self.phaseName)+1]
+        else:
+            self.phaseName = self.phaseList[0]
+
+    def phaseDown(self):
+        if self.phaseList.index(self.phaseName) != 0:
+            self.phaseName = self.phaseList[self.phaseList.index(self.phaseName)-1]
+        else:
+            self.phaseName = self.phaseList[len(self.phaseList)-1]
 
     def runPatience(self, entityList, bossi):
         bossi.goToCenter()
@@ -78,7 +92,7 @@ class phases:
         bossi.goToCenter()
         pygame.time.set_timer(pygame.USEREVENT, 200)
         if self.wallCounter < 7:
-            for i in range(12):
+            for i in range(24):
                 newBullet = bullet()
                 newBullet.setPosDirSpdSize(0, 10 + i*self.fireWallSpacing, 0, self.fireWallSpeed, 25)
                 entityList.append(newBullet)
@@ -89,7 +103,7 @@ class phases:
         elif self.wallCounter < 11:
             self.wallCounter +=1
         elif self.wallCounter < 18:
-            for i in range(20):
+            for i in range(24):
                 newBullet = bullet()
                 newBullet.setPosDirSpdSize(0, 10 + i*self.fireWallSpacing, 0, self.fireWallSpeed, 25)
                 entityList.append(newBullet)
@@ -100,7 +114,7 @@ class phases:
         elif self.wallCounter < 30:
             self.wallCounter +=1
         elif self.wallCounter < 37:
-            for i in range(20):
+            for i in range(24):
                 newBullet = bullet()
                 newBullet.setPosDirSpdSize(10 + i*self.fireWallSpacing, 0, 3*pi/2, self.fireWallSpeed, 25)
                 entityList.append(newBullet)
@@ -111,7 +125,7 @@ class phases:
         elif self.wallCounter < 41:
             self.wallCounter +=1
         elif self.wallCounter < 48:
-            for i in range(20):
+            for i in range(24):
                 newBullet = bullet()
                 newBullet.setPosDirSpdSize(10 + i*self.fireWallSpacing, 0, 3*pi/2, self.fireWallSpeed, 25)
                 entityList.append(newBullet)
@@ -191,8 +205,8 @@ class phases:
         bossi.goToCenter()
         pygame.time.set_timer(pygame.USEREVENT, 800)
         if self.leucCounter < 10 :
-            safespot = randint(8,20)
-            for i in range(28):
+            safespot = randint(floor(sW/94),floor(sW/53))
+            for i in range(55):
 
                 if not(i == safespot - 1 or i == safespot or i == safespot + 1):
                     newBullet = bullet()
@@ -256,10 +270,10 @@ class phases:
     def runTesting2(self, entityList, bossi):
         self.setNewTickSpeed(200)
         if self.overallCounter < 20:
-            self.makeASinusoid(entityList, 500, 0, -pi/20 - (self.overallCounter*pi)/20, 3, 25, 4, 0.1)
+            self.makeASinusoid(entityList, sW/2, 0, -pi/20 - (self.overallCounter*pi)/20, 3, 25, 4, 0.1)
             self.overallCounter+=1
         elif self.overallCounter < 40:
-            self.makeASinusoid(entityList, 500, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, 3, 25, 4, 0.1)
+            self.makeASinusoid(entityList, sW/2, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, 3, 25, 4, 0.1)
             self.overallCounter +=1
         else:
             self.overallCounter = 0
@@ -270,16 +284,16 @@ class phases:
         freq = 0.075
         spd = 6
         if self.overallCounter < 20:
-            self.makeASinusoid(entityList, 500, 0, -pi/20 - (self.overallCounter*pi)/20, spd, 25, amp, freq )
-            self.makeASinusoid(entityList, 500, 0, -pi/20 - (self.overallCounter*pi)/20, spd, 25, -amp, freq )
-            #self.makeASinusoid(entityList, 500, 0, -pi/20 - (self.overallCounter*pi)/20, spd * 1.5, 25, amp/2, freq )
-            #self.makeASinusoid(entityList, 500, 0, -pi/20 - (self.overallCounter*pi)/20, spd * 1.5, 25, -amp/2, freq )
+            self.makeASinusoid(entityList, sW/2, 0, -pi/20 - (self.overallCounter*pi)/20, spd, 25, amp, freq )
+            self.makeASinusoid(entityList, sW/2, 0, -pi/20 - (self.overallCounter*pi)/20, spd, 25, -amp, freq )
+            #self.makeASinusoid(entityList, sW/2, 0, -pi/20 - (self.overallCounter*pi)/20, spd * 1.5, 25, amp/2, freq )
+            #self.makeASinusoid(entityList, sW/2, 0, -pi/20 - (self.overallCounter*pi)/20, spd * 1.5, 25, -amp/2, freq )
             self.overallCounter+=1
         elif self.overallCounter < 40:
-            self.makeASinusoid(entityList, 500, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd, 25, amp, freq )
-            self.makeASinusoid(entityList, 500, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd, 25, -amp, freq )
-            #self.makeASinusoid(entityList, 500, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd * 1.5, 25, amp/2, freq )
-            #self.makeASinusoid(entityList, 500, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd * 1.5, 25, -amp/2, freq )
+            self.makeASinusoid(entityList, sW/2, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd, 25, amp, freq )
+            self.makeASinusoid(entityList, sW/2, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd, 25, -amp, freq )
+            #self.makeASinusoid(entityList, sW/2, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd * 1.5, 25, amp/2, freq )
+            #self.makeASinusoid(entityList, sW/2, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd * 1.5, 25, -amp/2, freq )
             self.overallCounter +=1
         else:
             self.overallCounter = 0

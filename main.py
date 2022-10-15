@@ -8,8 +8,8 @@ from boss import boss
 from bomb import bomb
 from phases import phases
 
-sH = 1000
-sW = 1840
+sH = 720
+sW = 1280
 
 def main():
     pygame.init()
@@ -26,12 +26,22 @@ def main():
     scoreRect.center = (sW - 60, 20)
 
     start = font.render('MicroDodging', True, pygame.Color(0,0,0))
-    startRect = score.get_rect()
+    startRect = start.get_rect()
     startRect.center = (280, sH/2)
 
     instructions = font.render('Press Any Key To Play', True, pygame.Color(0,0,0))
-    instructionsRect = score.get_rect()
+    instructionsRect = instructions.get_rect()
     instructionsRect.center = (280, sH/2 + 50)
+
+    instructions2 = font.render('Press Escape To Close', True, pygame.Color(0,0,0))
+    instructions2Rect = instructions2.get_rect()
+    instructions2Rect.center = (280, sH/2 + 100)
+
+    instructions3 = font.render('Use Arrow Keys To Change First Phase', True, pygame.Color(0,0,0))
+    instructions3Rect = instructions3.get_rect()
+    instructions3Rect.center = (280, sH/2 + 150)
+
+    
 
     scoreInt = 0
 
@@ -63,11 +73,15 @@ def main():
 
     phase = phases()
 
+    bossi = boss()
+
+    phase.setPhaseName("leucsins")
+
     while not done:
 
         if playerDead:
 
-            phase.reset()
+            phase.reset
 
             scoreInt = 0
 
@@ -90,19 +104,39 @@ def main():
             screen.fill(pygame.Color(255,255,255))
             screen.blit(start, startRect)
             screen.blit(instructions, instructionsRect)
+            screen.blit(instructions2, instructions2Rect)
+
+            instructions4 = font.render(phase.getPhaseName(), True, pygame.Color(0,0,0))
+            instructions4Rect = instructions4.get_rect()
+            instructions4Rect.center = (800, sH/2 + 100)
+            screen.blit(instructions4, instructions4Rect)
+
+            
 
             for event in pygame.event.get():
-                if event.type == pygame.QUIT: done = True
-                if event.type == pygame.KEYDOWN: playerDead = False
+                if event.type == pygame.QUIT: 
+                    done = True
+                if event.type == pygame.KEYDOWN: 
+                    if event.key == pygame.K_ESCAPE:
+                        done = True
+                    elif event.key == pygame.K_UP: 
+                        phase.phaseUp()
+                    elif event.key == pygame.K_DOWN: 
+                        phase.phaseDown()
+                    else:
+                        playerDead = False
+
+            
+
 
             clock.tick(60)
             pygame.display.flip()
 
-            bossi = boss()
+            
 
             
 
-            phase.setPhaseName("patience")
+            
 
         else:
 
@@ -136,6 +170,10 @@ def main():
                     if event.key == pygame.K_s or event.key == pygame.K_DOWN: isDown = True
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT: isLeft = True
                     if event.key == pygame.K_d or event.key == pygame.K_RIGHT: isRight = True
+                    if event.key == pygame.K_ESCAPE:
+                        done = True
+                    else:
+                        playerDead = False
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_w or event.key == pygame.K_UP: isUp = False

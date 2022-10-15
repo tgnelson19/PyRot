@@ -2,8 +2,8 @@ from entity import entity
 from math import atan
 import pygame
 
-sH = 540
-sW = 960
+sH = 720
+sW = 1280
 
 class boss(entity):
 

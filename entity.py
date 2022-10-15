@@ -2,8 +2,8 @@ from math import cos, sin, pi
 from bulletFunction import bulletFunction
 import pygame
 
-sH = 1000
-sW = 1840
+sH = 720
+sW = 1280
 
 
 class entity:
