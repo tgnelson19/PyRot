@@ -1,27 +1,42 @@
+from math import pi
 from random import randint
 import pygame
+
+from bullet import bullet
+from entity import entity
+from boss import boss
+from bomb import bomb
+from phases import phases
+from textThing import textThing
+
+sH = 720
+sW = 1280
 
 def main():
     pygame.init()
  
-    size = [960, 540]
+    size = [sW, sH]
     screen = pygame.display.set_mode(size)
  
     pygame.display.set_caption("PyRot")
  
     font = pygame.font.Font('freeFont.otf', 32)
 
-    score = font.render('0', True, pygame.Color(255,255,255))
-    scoreRect = score.get_rect()
-    scoreRect.center = (900, 20)
+    openingTextList = []
 
-    start = font.render('MicroDodging', True, pygame.Color(0,0,0))
-    startRect = score.get_rect()
-    startRect.center = (280, 270)
-
-    instructions = font.render('Press Any Key To Play', True, pygame.Color(0,0,0))
-    instructionsRect = score.get_rect()
-    instructionsRect.center = (280, 320)
+    score = textThing("0", sW - 60, 20, pygame.Color(255,255,255))
+    start = textThing("MicroDodging", 100, sH/3, pygame.Color(0,0,0))
+    openingTextList.append(start)
+    instructions = textThing("Press Space Key To Play", 100, sH/3 + 50, pygame.Color(0,0,0))
+    openingTextList.append(instructions)
+    instructions2 = textThing("Use Arrow Keys To Change First Phase", 100, sH/3 + 100, pygame.Color(0,0,0))
+    openingTextList.append(instructions2)
+    instructions3 = textThing("Press Escape To Close", 100, sH/3 + 150, pygame.Color(0,0,0))
+    openingTextList.append(instructions3)
+    instructions4 = textThing("Nothing", 900, sH/3, pygame.Color(0,0,0))
+    openingTextList.append(instructions4)
+    instructions5 = textThing("Last score was 0", 400, sH-100, pygame.Color(0,0,0))
+    openingTextList.append(instructions5)
 
     scoreInt = 0
 
@@ -29,22 +44,13 @@ def main():
  
     clock = pygame.time.Clock()
 
-    pygame.time.set_timer(pygame.USEREVENT, 500)
+    pygame.time.set_timer(pygame.USEREVENT, 200)
 
-    TbulletedXList = []
-    TbulletedYList = []
+    entityList = []
 
-    RbulletedXList = []
-    RbulletedYList = []
-
-    LbulletedXList = []
-    LbulletedYList = []
-    
-    BbulletedXList = []
-    BbulletedYList = []
-
-    pX = 480
-    pY = 270
+    pX = sW/2
+    pY = sH/2
+    pSize = 25
 
     coinX = 0
     coinY = 0
@@ -60,11 +66,18 @@ def main():
     coinDead = True
     playerDead = True
 
+    phase = phases()
 
+    bossi = boss()
+
+    phase.setPhaseName("leucsins")
 
     while not done:
 
         if playerDead:
+
+            phase.reset()
+
             scoreInt = 0
 
             isUp = False
@@ -72,54 +85,39 @@ def main():
             isLeft = False
             isRight = False
 
-            pX = 480
-            pY = 270
+            pX = sW/2
+            pY = sH/2
 
-            coinX = randint(40, 920)
-            coinY = randint(40, 500)
+            coinX = randint(200, sW-200)
+            coinY = randint(100, sH-100)
 
-            score = font.render(str(scoreInt), True, pygame.Color(255,255,255))
+            entityList.clear()
 
-            TbulletedXList.clear()
-            TbulletedYList.clear()
-            RbulletedXList.clear()
-            RbulletedYList.clear()
-            LbulletedXList.clear()
-            LbulletedYList.clear()
-            BbulletedXList.clear()
-            BbulletedYList.clear()
+            score.updateText("0")
+            instructions4.updateText(phase.getPhaseName())
 
-            screen.fill(pygame.Color(255,255,255))
-            screen.blit(start, startRect)
-            screen.blit(instructions, instructionsRect)
+            for i in openingTextList:
+                i.drawText(screen)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: done = True
-                if event.type == pygame.KEYDOWN: playerDead = False
+                if event.type == pygame.KEYDOWN: 
+                    if event.key == pygame.K_ESCAPE:done = True
+                    elif event.key == pygame.K_UP: phase.phaseUp()
+                    elif event.key == pygame.K_DOWN: phase.phaseDown()
+                    elif event.key == pygame.K_SPACE: playerDead = False
 
             clock.tick(60)
             pygame.display.flip()
+            screen.fill(pygame.Color(255,255,255))
+
         else:
 
             for event in pygame.event.get():
 
                 if event.type == pygame.USEREVENT:
-                    TbulletedXList.append(randint(20, 940))
-                    TbulletedYList.append(-25)
+                    phase.runPhase(entityList)
 
-                    BbulletedXList.append(randint(20, 940))
-                    BbulletedYList.append(540)
-
-                    LbulletedXList.append(-25)
-                    LbulletedYList.append(randint(20, 520))
-
-                    RbulletedXList.append(960)
-                    RbulletedYList.append(randint(20, 520))
-
-                
-
-                
-                    
                 if event.type == pygame.QUIT: done = True
 
                 if event.type == pygame.KEYDOWN:
@@ -127,14 +125,16 @@ def main():
                     if event.key == pygame.K_s or event.key == pygame.K_DOWN: isDown = True
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT: isLeft = True
                     if event.key == pygame.K_d or event.key == pygame.K_RIGHT: isRight = True
+                    if event.key == pygame.K_ESCAPE:
+                        done = True
+                    else:
+                        playerDead = False
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_w or event.key == pygame.K_UP: isUp = False
                     if event.key == pygame.K_s or event.key == pygame.K_DOWN: isDown = False
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT: isLeft = False
                     if event.key == pygame.K_d or event.key == pygame.K_RIGHT: isRight = False
-
-                
 
             if isUp & isLeft | isUp & isRight | isDown & isLeft | isDown & isRight: directionalSpeed = trueSpeed * 0.707
             else: directionalSpeed = trueSpeed
@@ -144,99 +144,41 @@ def main():
             if isRight: pX += directionalSpeed
             if isLeft: pX -= directionalSpeed
 
-            if pX > 935: pX = 935
-            if pY > 515: pY = 515
+            if pX > sW-pSize: pX = sW-pSize
+            if pY > sH-pSize: pY = sH-pSize
             if pX < 0: pX = 0
             if pY < 0: pY = 0
 
-
-            
-            
-            
-            
-            
-            for b in TbulletedYList:
+            for e in entityList:
+                if e.contact(pX, pY):
+                    playerDead = True
+                    instructions5.updateText("Last Score Was " + str(scoreInt))
+                e.update()
+                if (e.isAlive == False):
+                    entityList.remove(e)
+                e.draw(screen)
                 
-                pygame.draw.rect(screen, pygame.Color(255,0,0), pygame.Rect(TbulletedXList[TbulletedYList.index(b)], b, 25, 25))
-                if b > 540:
-                    TbulletedXList.remove(TbulletedXList[TbulletedYList.index(b)])
-                    TbulletedYList.remove(b)
-                else:
-                    TbulletedYList[TbulletedYList.index(b)] = b + 2
-
-            for b in BbulletedYList:
-                
-                pygame.draw.rect(screen, pygame.Color(255,0,0), pygame.Rect(BbulletedXList[BbulletedYList.index(b)], b, 25, 25))
-                if b < -25:
-                    BbulletedXList.remove(BbulletedXList[BbulletedYList.index(b)])
-                    BbulletedYList.remove(b)
-                else:
-                    BbulletedYList[BbulletedYList.index(b)] = b - 2
-
-            for b in RbulletedXList:
-                
-                pygame.draw.rect(screen, pygame.Color(255,0,0), pygame.Rect(b, RbulletedYList[RbulletedXList.index(b)], 25, 25))
-                if b < -25:
-                    RbulletedYList.remove(RbulletedYList[RbulletedXList.index(b)])
-                    RbulletedXList.remove(b)
-                else:
-                    RbulletedXList[RbulletedXList.index(b)] = b - 2
-
-            for b in LbulletedXList:
-                
-                pygame.draw.rect(screen, pygame.Color(255,0,0), pygame.Rect(b, LbulletedYList[LbulletedXList.index(b)], 25, 25))
-                if b > 960:
-                    LbulletedYList.remove(LbulletedYList[LbulletedXList.index(b)])
-                    LbulletedXList.remove(b)
-                else:
-                    LbulletedXList[LbulletedXList.index(b)] = b + 2
-
-
             if coinDead:
-                coinX = randint(40, 920)
-                coinY = randint(40, 500)
+                coinX = randint(200, sW-200)
+                coinY = randint(100, sH-100)
                 coinDead = False
-
-            for b in BbulletedXList:
-                if abs(b - pX) < 25:
-                    if abs(BbulletedYList[BbulletedXList.index(b)] - pY) < 25:
-                        playerDead = True
-
-            for b in TbulletedXList:
-                if abs(b - pX) < 25:
-                    if abs(TbulletedYList[TbulletedXList.index(b)] - pY) < 25:
-                        playerDead = True
-
-            for b in RbulletedXList:
-                if abs(b - pX) < 25:
-                    if abs(RbulletedYList[RbulletedXList.index(b)] - pY) < 25:
-                        playerDead = True
-
-            for b in LbulletedXList:
-                if abs(b - pX) < 25:
-                    if abs(LbulletedYList[LbulletedXList.index(b)] - pY) < 25:
-                        playerDead = True
-
 
             if abs(pX - coinX) < 25:
                 if abs(pY-coinY) < 25:
                     coinDead = True
                     scoreInt += 1
-                    score = font.render(str(scoreInt), True, pygame.Color(255,255,255))
-
-            
+                    score.updateText(str(scoreInt))
 
             pygame.draw.rect(screen, pygame.Color(255,255,0), pygame.Rect(coinX, coinY, 25, 25))    
             
-            pygame.draw.rect(screen, pygame.Color(0,0,255), pygame.Rect(pX, pY, 25, 25))
+            pygame.draw.rect(screen, pygame.Color(0,0,255), pygame.Rect(pX, pY, pSize, pSize))
 
-            screen.blit(score, scoreRect)
+            score.drawText(screen)
                     
             clock.tick(60)
             pygame.display.flip()
             screen.fill(pygame.Color(0,0,0))
  
-    
     pygame.quit()
  
 if __name__ == "__main__":
