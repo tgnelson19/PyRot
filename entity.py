@@ -17,6 +17,7 @@ class entity:
         self.hue = pygame.Color(255,255,255)
         self.name = "none"
         self.bFunction = bulletFunction()
+        self.bFunction.setNameAndStuff("boss", 0,0)
         
         
 
@@ -52,6 +53,9 @@ class entity:
             self.posX += self.speed*cos(self.dir)  +  (self.bFunction.getAmp()*cos(self.bFunction.getTicker()))*sin(self.dir)
             self.posY -= self.speed*sin(self.dir)  -  (self.bFunction.getAmp()*cos(self.bFunction.getTicker()))*cos(self.dir)
             self.bFunction.upTicker(self.bFunction.getFrequency())
+        elif(self.bFunction.getName()=="boss"):
+            self.posX +=  self.speed*cos(self.dir)
+            self.posY -=  self.speed*sin(self.dir)
 
 
         if (self.posX) < (-100 - self.size) or (self.posX) > (100+ sW + self.size) or (self.posY) < (-100 -0 - self.size) or (self.posY) > (100 + sH + self.size):

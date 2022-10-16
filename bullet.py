@@ -8,7 +8,7 @@ class bullet(entity):
         self.isAlive = True
         self.posX = 0
         self.posY = 0
-        self.dir = "none"
+        self.dir = 0
         self.name = "bullet"
         self.hue= pygame.Color(255,0,0)
         self.speed = 0

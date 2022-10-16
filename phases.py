@@ -33,6 +33,9 @@ class phases:
         self.phaseList = ["patience", "firewalls", "slowminigun", "fastminigun", "thirdcounter", "leucsins"]
         self.bossi = boss()
 
+    def setBoss(self, boss):
+        self.bossi = boss
+
     def setPhaseName(self, phaseName):
         self.phaseName = phaseName
 
@@ -71,8 +74,18 @@ class phases:
         else:
             self.phaseName = self.phaseList[len(self.phaseList)-1]
 
+    def runTesting1(self, entityList, bossi):
+        self.setNewTickSpeed(400)
+        
+        if self.overallCounter < 20:
+            self.makeAStraightShooter(entityList, 0, 280, 0, 3, 25)
+            self.overallCounter += 1
+        else:
+            bossi.goToCenter()
+            self.overallCounter = 0
+
     def runPatience(self, entityList, bossi):
-        bossi.goToCenter()
+        
         pygame.time.set_timer(pygame.USEREVENT, 200)
         if self.patienceCounter < 40 and self.patienceCounter % 2 == 0:
             newBullet = bullet()
@@ -280,14 +293,6 @@ class phases:
         newBullet.setPosDirSpdSize( xStart, yStart, dir, speed, size )
         newBullet.setBFunction("sinusoid", amplitude, frequency)
         entityList.append(newBullet)
-
-    def runTesting1(self, entityList, bossi):
-        self.setNewTickSpeed(400)
-        if self.overallCounter < 20:
-            self.makeAStraightShooter(entityList, 0, 280, 0, 3, 25)
-            self.overallCounter += 1
-        else:
-            self.overallCounter = 0
 
     def runTesting2(self, entityList, bossi):
         self.setNewTickSpeed(200)

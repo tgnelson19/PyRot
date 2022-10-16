@@ -19,11 +19,10 @@ def main():
     screen = pygame.display.set_mode(size)
  
     pygame.display.set_caption("PyRot")
- 
-    font = pygame.font.Font('freeFont.otf', 32)
+
+    done = False
 
     openingTextList = []
-
     score = textThing("0", sW - 60, 20, pygame.Color(255,255,255))
     start = textThing("MicroDodging", 100, sH/3, pygame.Color(0,0,0))
     openingTextList.append(start)
@@ -38,45 +37,27 @@ def main():
     instructions5 = textThing("Last score was 0", 400, sH-100, pygame.Color(0,0,0))
     openingTextList.append(instructions5)
 
-    scoreInt = 0
-
-    done = False
- 
     clock = pygame.time.Clock()
 
     pygame.time.set_timer(pygame.USEREVENT, 200)
 
-    entityList = []
-
-    pX = sW/2
-    pY = sH/2
-    pSize = 25
-
-    coinX = 0
-    coinY = 0
-
     trueSpeed = 5
     directionalSpeed = 5
-
-    isUp = False
-    isDown = False
-    isLeft = False
-    isRight = False
 
     coinDead = True
     playerDead = True
 
     phase = phases()
 
-    bossi = boss()
-
-    phase.setPhaseName("leucsins")
+    phase.setPhaseName("testing1")
 
     while not done:
 
         if playerDead:
 
             phase.reset()
+
+            entityList = []
 
             scoreInt = 0
 
@@ -85,13 +66,17 @@ def main():
             isLeft = False
             isRight = False
 
+            bossi = boss()
+            entityList.append(bossi)
+
+            phase.setBoss(bossi)
+
             pX = sW/2
             pY = sH/2
+            pSize = 25
 
             coinX = randint(200, sW-200)
             coinY = randint(100, sH-100)
-
-            entityList.clear()
 
             score.updateText("0")
             instructions4.updateText(phase.getPhaseName())
