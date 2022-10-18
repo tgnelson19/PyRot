@@ -49,7 +49,7 @@ def main():
 
     phase = phases()
 
-    phase.setPhaseName("testing1")
+    phase.setPhaseName("leucsins")
 
     while not done:
 
@@ -67,7 +67,7 @@ def main():
             isRight = False
 
             bossi = boss()
-            entityList.append(bossi)
+            #entityList.append(bossi)
 
             phase.setBoss(bossi)
 

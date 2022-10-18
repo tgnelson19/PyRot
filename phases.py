@@ -30,7 +30,7 @@ class phases:
         self.minigunCounter = 0
         self.leucCounter = 0
         self.overallCounter = 0
-        self.phaseList = ["patience", "firewalls", "slowminigun", "fastminigun", "thirdcounter", "leucsins"]
+        self.phaseList = ["patience", "firewalls", "slowminigun", "fastminigun", "thirdcounter", "leucsins", "sinpain"]
         self.bossi = boss()
 
     def setBoss(self, boss):
@@ -61,6 +61,8 @@ class phases:
             self.runTesting2(entityList, self.bossi)
         elif (self.phaseName == "leucsins"):
             self.runLeucSins(entityList, self.bossi)
+        elif (self.phaseName == "sinpain"):
+            self.runSinPain(entityList, self.bossi)
 
     def phaseUp(self):
         if self.phaseList.index(self.phaseName) != len(self.phaseList) - 1:
@@ -324,6 +326,26 @@ class phases:
             self.overallCounter +=1
         else:
             self.overallCounter = 0
-            self.phaseName = "patience"
+            self.phaseName = "sinpain"
         
+
+    def runSinPain(self, entityList, bossi):
+        self.setNewTickSpeed(100)
+        amp = 4
+        freq = 0.075
+        spd = 10
+        if self.overallCounter < 50:
+            #self.makeASinusoid(entityList, 0, pi/3, 0, spd, 25, amp, freq )
+            #self.makeASinusoid(entityList, 0, 2*pi/3, 0, spd, 25, -amp, freq )
+            #self.makeASinusoid(entityList, 0, pi/6, 0, spd * 1.5, 25, amp/2, freq )
+            #self.makeASinusoid(entityList, 0, 5*pi/6, 0, spd * 1.5, 25, -amp/2, freq )
+
+            self.makeASinusoid(entityList, 0, 25*self.overallCounter, 0, spd, 25, amp, freq )
+            self.makeASinusoid(entityList, 0, 25*self.overallCounter, 0, spd, 25, -amp, freq )
+            self.makeASinusoid(entityList, 0, 25*self.overallCounter, 0, spd * 1.5, 25, amp/2, freq )
+            self.makeASinusoid(entityList, 0, 25*self.overallCounter, 0, spd * 1.5, 25, -amp/2, freq )
+            self.overallCounter+=1
+        else:
+            self.overallCounter = 0
+            self.phaseName = "patience"
     
