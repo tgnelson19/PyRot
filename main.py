@@ -49,8 +49,6 @@ def main():
 
     phase = phases()
 
-    phase.setPhaseName("leucsins")
-
     while not done:
 
         if playerDead:
@@ -79,7 +77,7 @@ def main():
             coinY = randint(100, sH-100)
 
             score.updateText("0")
-            instructions4.updateText(phase.getPhaseName())
+            instructions4.updateText(phase.getDifficulty())
 
             for i in openingTextList:
                 i.drawText(screen)
@@ -88,8 +86,8 @@ def main():
                 if event.type == pygame.QUIT: done = True
                 if event.type == pygame.KEYDOWN: 
                     if event.key == pygame.K_ESCAPE:done = True
-                    elif event.key == pygame.K_UP: phase.phaseUp()
-                    elif event.key == pygame.K_DOWN: phase.phaseDown()
+                    elif event.key == pygame.K_UP: phase.difficultyUp()
+                    elif event.key == pygame.K_DOWN: phase.difficultyDown()
                     elif event.key == pygame.K_SPACE: playerDead = False
 
             clock.tick(60)
