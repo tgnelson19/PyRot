@@ -43,22 +43,22 @@ class phases:
             if (self.phaseName == "nothing" or self.phaseName == self.easyPhaseList[len(self.easyPhaseList)-1]):
                 self.phaseName = self.easyPhaseList[0]
             else:
-                self.phaseName = self.easyPhaseList[self.easyPhaseList.index(len(self.easyPhaseList)+1)]
+                self.phaseName = self.easyPhaseList[self.easyPhaseList.index(self.phaseName)+1]
         elif(self.difficulty == "Normal"):
             if (self.phaseName == "nothing" or self.phaseName == self.normalPhaseList[len(self.normalPhaseList)-1]):
                 self.phaseName = self.normalPhaseList[0]
             else:
-                self.phaseName = self.normalPhaseList[self.normalPhaseList.index(len(self.normalPhaseList)+1)]
+                self.phaseName = self.normalPhaseList[self.normalPhaseList.index(self.phaseName)+1]
         elif(self.difficulty == "Hard"):
             if (self.phaseName == "nothing" or self.phaseName == self.hardPhaseList[len(self.hardPhaseList)-1]):
                 self.phaseName = self.hardPhaseList[0]
             else:
-                self.phaseName = self.hardPhaseList[self.hardPhaseList.index(len(self.hardPhaseList)+1)]
+                self.phaseName = self.hardPhaseList[self.hardPhaseList.index(self.phaseName)+1]
         elif(self.difficulty == "Impossible"):
             if (self.phaseName == "nothing" or self.phaseName == self.impossiblePhaseList[len(self.impossiblePhaseList)-1]):
                 self.phaseName = self.impossiblePhaseList[0]
             else:
-                self.phaseName = self.impossiblePhaseList[self.impossiblePhaseList.index(len(self.impossiblePhaseList)+1)]
+                self.phaseName = self.impossiblePhaseList[self.impossiblePhaseList.index(self.phaseName)+1]
 
         elif(self.difficulty == "Testing"):
             self.phaseName = self.testingPhaseList[0]
