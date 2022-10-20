@@ -40,24 +40,24 @@ class phases:
 
     def nextPhase(self):
         if(self.difficulty == "Easy"):
-            if (self.phaseName == "nothing" or self.phaseName == self.easyPhaseList[self.easyPhaseList.index(len(self.easyPhaseList)-1)]):
+            if (self.phaseName == "nothing" or self.phaseName == self.easyPhaseList[len(self.easyPhaseList)-1]):
                 self.phaseName = self.easyPhaseList[0]
-            elif ():
+            else:
                 self.phaseName = self.easyPhaseList[self.easyPhaseList.index(len(self.easyPhaseList)+1)]
         elif(self.difficulty == "Normal"):
-            if (self.phaseName == "nothing" or self.phaseName == self.normalPhaseList[self.normalPhaseList.index(len(self.normalPhaseList)-1)]):
+            if (self.phaseName == "nothing" or self.phaseName == self.normalPhaseList[len(self.normalPhaseList)-1]):
                 self.phaseName = self.normalPhaseList[0]
-            elif ():
+            else:
                 self.phaseName = self.normalPhaseList[self.normalPhaseList.index(len(self.normalPhaseList)+1)]
         elif(self.difficulty == "Hard"):
-            if (self.phaseName == "nothing" or self.phaseName == self.hardPhaseList[self.hardPhaseList.index(len(self.hardPhaseList)-1)]):
+            if (self.phaseName == "nothing" or self.phaseName == self.hardPhaseList[len(self.hardPhaseList)-1]):
                 self.phaseName = self.hardPhaseList[0]
-            elif ():
+            else:
                 self.phaseName = self.hardPhaseList[self.hardPhaseList.index(len(self.hardPhaseList)+1)]
         elif(self.difficulty == "Impossible"):
-            if (self.phaseName == "nothing" or self.phaseName == self.impossiblePhaseList[self.impossiblePhaseList.index(len(self.impossiblePhaseList)-1)]):
+            if (self.phaseName == "nothing" or self.phaseName == self.impossiblePhaseList[len(self.impossiblePhaseList)-1]):
                 self.phaseName = self.impossiblePhaseList[0]
-            elif ():
+            else:
                 self.phaseName = self.impossiblePhaseList[self.impossiblePhaseList.index(len(self.impossiblePhaseList)+1)]
 
         elif(self.difficulty == "Testing"):
@@ -113,13 +113,13 @@ class phases:
         elif (self.phaseName == "sinpain"):
             self.runSinPain(entityList, self.bossi)
 
+    def setNewTickSpeed(self, tSpeed): 
+        pygame.time.set_timer(pygame.USEREVENT, tSpeed)
+
     def makeAStraightShooter(self, entityList, xStart, yStart, dir, speed, size):
         newBullet = bullet()
         newBullet.setPosDirSpdSize( xStart, yStart, dir, speed, size )
         entityList.append(newBullet)
-
-    def setNewTickSpeed(self, tSpeed): 
-        pygame.time.set_timer(pygame.USEREVENT, tSpeed)
 
     def makeASinusoid(self, entityList, xStart, yStart, dir, speed, size, amplitude, frequency):
         newBullet = bullet()
@@ -128,7 +128,30 @@ class phases:
         entityList.append(newBullet)
 
     def runEasyJoke(self, entityList, bossi):
-        self.nextPhase()
+
+        self.setNewTickSpeed(400)
+
+        array1 = [1,0,0,1,0,1,1,1,0,0,0,1,1,0,0,1,1,1,1]
+        array2 = [1,0,0,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,1]
+        array3 = [1,0,0,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,1]
+        array4 = [0,1,1,0,0,0,1,1,0,0,1,1,1,1,0,1,1,1,1]
+        array5 = [0,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1]
+        array6 = [0,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1]
+        array7 = [0,1,1,0,0,0,1,1,1,0,1,0,0,1,0,1,1,1,1]
+
+        allarrays = [array1,array2,array3,array4,array5,array6,array7]
+
+        if self.overallCounter < len(array1):
+
+            for i in range(7):
+                if(allarrays[i][self.overallCounter]):
+                    self.makeAStraightShooter(entityList, 0, 200 + 35*i, 0, 2, 25)
+
+            self.overallCounter +=1
+        else:
+            self.overallCounter = 0
+            self.nextPhase()
+
 
     def runNormalJoke(self, entityList, bossi):
         self.nextPhase()
