@@ -1,3 +1,4 @@
+from lib2to3.pgen2.token import AMPER
 from bullet import bullet
 from random import randint
 from boss import boss
@@ -22,8 +23,8 @@ class phases:
         self.easyPhaseList = ["easyjoke", "feeble"]
         self.normalPhaseList = ["normaljoke", "slowminigun", "fastminigun", "thirdcounter"]
         self.hardPhaseList = ["hardjoke", "patience", "firewalls"]
-        self.impossiblePhaseList = ["impossiblejoke", "leucsins"]
-        self.testingPhaseList = ["rotatebeam"]
+        self.impossiblePhaseList = ["impossiblejoke", "leucsins", "rotatebeam"]
+        self.testingPhaseList = []
         self.bossi = boss()
 
     def reset(self):
@@ -200,34 +201,22 @@ class phases:
         self.setNewTickSpeed(100)
         angle = 2*pi*self.overallCounter/90
         radius = 735
+        speed = 2
+        amp = 4
+        freq = 0.1
+        
         if self.overallCounter < 90:
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
             angle = angle + pi/2
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
             angle = angle + pi/2
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
             angle = angle + pi/2
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
-            self.overallCounter +=1
-        elif self.overallCounter < 180:
-            angle = -2*pi*(self.overallCounter-90)/90
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
-            angle = angle + pi/2
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
-            angle = angle + pi/2
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
-            angle = angle + pi/2
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
-
-
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
             self.overallCounter +=1
         else:
             self.overallCounter = 0
