@@ -1,3 +1,4 @@
+from cgi import test
 from math import pi
 from random import randint
 import pygame
@@ -22,13 +23,15 @@ def main():
 
     done = False
 
+    testingTextThing = textThing(" ", 0,0,pygame.Color(0,0,0,))
+
     openingTextList = []
     score = textThing("0", sW - 60, 20, pygame.Color(255,255,255))
     start = textThing("MicroDodging", 100, sH/3, pygame.Color(0,0,0))
     openingTextList.append(start)
     instructions = textThing("Press Space Key To Play", 100, sH/3 + 50, pygame.Color(0,0,0))
     openingTextList.append(instructions)
-    instructions2 = textThing("Use Arrow Keys To Change First Phase", 100, sH/3 + 100, pygame.Color(0,0,0))
+    instructions2 = textThing("Use Arrow Keys To Change Difficulty", 100, sH/3 + 100, pygame.Color(0,0,0))
     openingTextList.append(instructions2)
     instructions3 = textThing("Press Escape To Close", 100, sH/3 + 150, pygame.Color(0,0,0))
     openingTextList.append(instructions3)
@@ -68,6 +71,7 @@ def main():
             #entityList.append(bossi)
 
             phase.setBoss(bossi)
+            phase.setPhaseName("nothing")
 
             pX = sW/2
             pY = sH/2
@@ -81,6 +85,8 @@ def main():
 
             for i in openingTextList:
                 i.drawText(screen)
+
+            testingTextThing.drawANewText("Hi there", 100, 100, pygame.Color(0,0,0), screen)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: done = True

@@ -1,4 +1,4 @@
-from math import cos, sin, pi
+from math import cos, sin, pi, sqrt
 from bulletFunction import bulletFunction
 import pygame
 
@@ -18,6 +18,7 @@ class entity:
         self.name = "none"
         self.bFunction = bulletFunction()
         self.bFunction.setNameAndStuff("boss", 0,0)
+        self.radius = 735
         
         
 
@@ -58,7 +59,7 @@ class entity:
             self.posY -=  self.speed*sin(self.dir)
 
 
-        if (self.posX) < (-100 - self.size) or (self.posX) > (100+ sW + self.size) or (self.posY) < (-100 -0 - self.size) or (self.posY) > (100 + sH + self.size):
+        if (self.posX) < (-120) or (self.posX) > (1400) or self.posY < (-450) or self.posY > (1120):
             self.isAlive = False
 
     def draw(self, screen):

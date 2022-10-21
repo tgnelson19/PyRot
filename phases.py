@@ -1,9 +1,7 @@
-from tkinter import E
 from bullet import bullet
 from random import randint
 from boss import boss
-from math import pi
-from math import floor
+from math import pi, sqrt, cos, sin, floor
 import pygame
 
 sH = 720
@@ -21,11 +19,11 @@ class phases:
         self.overallCounter = 0
         self.difficultyList = ["Easy", "Normal", "Hard", "Impossible", "Testing"]
         self.difficulty = "Easy"
-        self.easyPhaseList = ["easyjoke"]
+        self.easyPhaseList = ["easyjoke", "feeble"]
         self.normalPhaseList = ["normaljoke", "slowminigun", "fastminigun", "thirdcounter"]
         self.hardPhaseList = ["hardjoke", "patience", "firewalls"]
         self.impossiblePhaseList = ["impossiblejoke", "leucsins"]
-        self.testingPhaseList = ["sinpain"]
+        self.testingPhaseList = ["rotatebeam"]
         self.bossi = boss()
 
     def reset(self):
@@ -112,6 +110,10 @@ class phases:
             self.runLeucSins(entityList, self.bossi)
         elif (self.phaseName == "sinpain"):
             self.runSinPain(entityList, self.bossi)
+        elif (self.phaseName == "feeble"):
+            self.runFeeble(entityList, self.bossi)
+        elif(self.phaseName == "rotatebeam"):
+            self.runRotateBeam(entityList, self.bossi)
 
     def setNewTickSpeed(self, tSpeed): 
         pygame.time.set_timer(pygame.USEREVENT, tSpeed)
@@ -129,7 +131,7 @@ class phases:
 
     def runEasyJoke(self, entityList, bossi):
 
-        self.setNewTickSpeed(400)
+        self.setNewTickSpeed(200)
 
         array1 = [1,0,0,1,0,1,1,1,0,0,0,1,1,0,0,1,1,1,1]
         array2 = [1,0,0,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,1]
@@ -145,7 +147,7 @@ class phases:
 
             for i in range(7):
                 if(allarrays[i][self.overallCounter]):
-                    self.makeAStraightShooter(entityList, 0, 200 + 35*i, 0, 2, 25)
+                    self.makeAStraightShooter(entityList, 0, 200 + 35*i, 0, 3.5, 25)
 
             self.overallCounter +=1
         else:
@@ -154,7 +156,28 @@ class phases:
 
 
     def runNormalJoke(self, entityList, bossi):
-        self.nextPhase()
+        self.setNewTickSpeed(200)
+
+        array1 = [0,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0,1,1,1,0,0,1,1,0,0,1,0,0,1]
+        array2 = [0,0,0,1,0,1,0,0,1,0,1,1,1,1,0,1,0,0,1,0,1,0,0,1,0,1,0,1,1]
+        array3 = [0,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,1,1]
+        array4 = [0,0,0,1,0,1,1,1,1,0,1,0,0,1,0,1,1,1,1,0,1,0,0,1,0,1,1,1,1]
+        array5 = [0,0,0,1,0,1,0,0,1,0,1,0,0,1,0,0,0,1,1,0,1,0,0,1,0,1,1,0,1]
+        array6 = [0,0,0,1,0,1,0,0,1,0,1,0,0,1,0,0,1,0,1,0,1,0,0,1,0,1,1,0,1]
+        array7 = [1,1,1,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,0,1,1,0,0,1,0,0,1]
+
+        allarrays = [array1,array2,array3,array4,array5,array6,array7]
+
+        if self.overallCounter < len(array1):
+
+            for i in range(7):
+                if(allarrays[i][self.overallCounter]):
+                    self.makeAStraightShooter(entityList, 0, 200 + 35*i, 0, 3.5, 25)
+
+            self.overallCounter +=1
+        else:
+            self.overallCounter = 0
+            self.nextPhase()
 
 
     def runHardJoke(self, entityList, bossi):
@@ -162,6 +185,55 @@ class phases:
 
     def runImpossibleJoke(self, entityList, bossi):
         self.nextPhase()
+
+    def runFeeble(self, entityList, bossi):
+        self.setNewTickSpeed(200)
+        if self.overallCounter < 20:
+            for i in range(3):
+                self.makeAStraightShooter(entityList, 0, 30+200*i, 0, 5, 25)
+            self.overallCounter += 1
+        else:
+            self.overallCounter = 0
+            self.nextPhase()
+
+    def runRotateBeam(self, entityList, bossi):
+        self.setNewTickSpeed(100)
+        angle = 2*pi*self.overallCounter/90
+        radius = 735
+        if self.overallCounter < 90:
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
+            angle = angle + pi/2
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
+            angle = angle + pi/2
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
+            angle = angle + pi/2
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
+            self.overallCounter +=1
+        elif self.overallCounter < 180:
+            angle = -2*pi*(self.overallCounter-90)/90
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
+            angle = angle + pi/2
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
+            angle = angle + pi/2
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
+            angle = angle + pi/2
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, 5, 1)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, 25, 25, -5, 1)
+
+
+            self.overallCounter +=1
+        else:
+            self.overallCounter = 0
+            self.nextPhase()
+
+
 
     def runPatience(self, entityList, bossi):
         
