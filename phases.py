@@ -23,8 +23,8 @@ class phases:
         self.easyPhaseList = ["easyjoke", "feeble"]
         self.normalPhaseList = ["normaljoke", "slowminigun", "fastminigun", "thirdcounter"]
         self.hardPhaseList = ["hardjoke", "patience", "firewalls"]
-        self.impossiblePhaseList = ["impossiblejoke", "leucsins", "rotatebeam"]
-        self.testingPhaseList = []
+        self.impossiblePhaseList = ["impossiblejoke",  "leucsins"]
+        self.testingPhaseList = ["rotatebeam"]
         self.bossi = boss()
 
     def reset(self):
@@ -198,14 +198,14 @@ class phases:
             self.nextPhase()
 
     def runRotateBeam(self, entityList, bossi):
-        self.setNewTickSpeed(100)
+        self.setNewTickSpeed(50)
         angle = 2*pi*self.overallCounter/90
         radius = 735
-        speed = 2
-        amp = 4
+        speed = 5
+        amp = 5
         freq = 0.1
         
-        if self.overallCounter < 90:
+        if self.overallCounter < 91:
             self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
             self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
             angle = angle + pi/2
@@ -218,6 +218,8 @@ class phases:
             self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
             self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
             self.overallCounter +=1
+            if(self.overallCounter == 90):
+                self.overallCounter = 0
         else:
             self.overallCounter = 0
             self.nextPhase()
