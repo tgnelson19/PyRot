@@ -23,9 +23,12 @@ class phases:
         self.easyPhaseList = ["easyjoke", "feeble"]
         self.normalPhaseList = ["normaljoke", "slowminigun", "fastminigun", "thirdcounter"]
         self.hardPhaseList = ["hardjoke", "patience", "firewalls"]
-        self.impossiblePhaseList = ["impossiblejoke",  "leucsins"]
-        self.testingPhaseList = ["rotatebeam"]
+        self.impossiblePhaseList = ["leucsins", "rampage", "impossiblejoke", "rotatebeam"]
+        self.testingPhaseList = []
         self.bossi = boss()
+        self.numSides = 0
+        self.out = True
+        self.secondaryCounter = 0
 
     def reset(self):
         self.wallCounter = 0
@@ -36,6 +39,8 @@ class phases:
         self.leucCounter = 0
         self.overallCounter = 0
         self.bossi = boss()
+        self.numSides = 0
+        self.out = True
 
     def nextPhase(self):
         if(self.difficulty == "Easy"):
@@ -115,6 +120,8 @@ class phases:
             self.runFeeble(entityList, self.bossi)
         elif(self.phaseName == "rotatebeam"):
             self.runRotateBeam(entityList, self.bossi)
+        elif(self.phaseName == "rampage"):
+            self.runRampage(entityList, self.bossi)
 
     def setNewTickSpeed(self, tSpeed): 
         pygame.time.set_timer(pygame.USEREVENT, tSpeed)
@@ -187,6 +194,23 @@ class phases:
     def runImpossibleJoke(self, entityList, bossi):
         self.nextPhase()
 
+    def runRampage(self, entityList, bossi):
+        self.setNewTickSpeed(125)
+        angle = 0
+        miniangle = 0
+        ballSpeed = 30
+        if(self.overallCounter * ballSpeed < sW):
+            for i in range(5):
+                angle += 2*pi/5
+                miniangle = 2*pi*self.overallCounter/22.5
+                self.makeAStraightShooter(entityList, self.overallCounter * ballSpeed, sH/2, angle + miniangle, 10, 25)
+            self.overallCounter +=1
+        elif ( self.overallCounter * ballSpeed < sW + 1000):
+            self.overallCounter +=1
+        else:
+            self.overallCounter = 0
+            self.nextPhase()
+
     def runFeeble(self, entityList, bossi):
         self.setNewTickSpeed(200)
         if self.overallCounter < 20:
@@ -218,9 +242,14 @@ class phases:
             self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
             self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
             self.overallCounter +=1
+            self.secondaryCounter +=1
             if(self.overallCounter == 90):
                 self.overallCounter = 0
-        else:
+        if (self.secondaryCounter > 271):
+            self.overallCounter = 92
+            self.secondaryCounter +=1
+        if( self.secondaryCounter > 330):
+            self.secondaryCounter = 0
             self.overallCounter = 0
             self.nextPhase()
 
@@ -401,18 +430,38 @@ class phases:
         amp = 6
         freq = 0.075
         spd = 6
+        
+        if self.numSides < 10 and self.out:
+            self.numSides +=1
+            if self.numSides == 10:
+                self.out = False
+        if self.numSides > 0 and not self.out:
+            self.numSides -=1
+            if self.numSides == 0:
+                self.out = True
+        
         if self.overallCounter < 20:
             self.makeASinusoid(entityList, sW/2, 0, -pi/20 - (self.overallCounter*pi)/20, spd, 25, amp, freq )
             self.makeASinusoid(entityList, sW/2, 0, -pi/20 - (self.overallCounter*pi)/20, spd, 25, -amp, freq )
+            for i in range(self.numSides):
+                self.makeAStraightShooter(entityList, 60*i, 0, 3*pi/2, 6, 25)
+            for i in range(self.numSides):
+                self.makeAStraightShooter(entityList, sW-25 - 60*i, 0, 3*pi/2, 6, 25)
             #self.makeASinusoid(entityList, sW/2, 0, -pi/20 - (self.overallCounter*pi)/20, spd * 1.5, 25, amp/2, freq )
             #self.makeASinusoid(entityList, sW/2, 0, -pi/20 - (self.overallCounter*pi)/20, spd * 1.5, 25, -amp/2, freq )
             self.overallCounter+=1
         elif self.overallCounter < 40:
             self.makeASinusoid(entityList, sW/2, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd, 25, amp, freq )
             self.makeASinusoid(entityList, sW/2, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd, 25, -amp, freq )
+            for i in range(self.numSides):
+                self.makeAStraightShooter(entityList, 60*i, 0, 3*pi/2, 6, 25)
+            for i in range(self.numSides):
+                self.makeAStraightShooter(entityList, sW-25 - 60*i, 0, 3*pi/2, 6, 25)
             #self.makeASinusoid(entityList, sW/2, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd * 1.5, 25, amp/2, freq )
             #self.makeASinusoid(entityList, sW/2, 0, pi + pi/20  + ((self.overallCounter-20)*pi)/20, spd * 1.5, 25, -amp/2, freq )
             self.overallCounter +=1
+        elif self.overallCounter < 50:
+            self.overallCounter+=1
         else:
             self.overallCounter = 0
             self.nextPhase()  

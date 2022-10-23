@@ -1,4 +1,3 @@
-from cgi import test
 from math import pi
 from random import randint
 import pygame
