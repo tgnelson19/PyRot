@@ -42,7 +42,7 @@ def main():
     openingTextList.append(instructions3)
     instructions4 = textThing("Nothing", 900, sH/3, pygame.Color(0,0,0))
     openingTextList.append(instructions4)
-    instructions5 = textThing("Last score was 0", 400, sH-100, pygame.Color(0,0,0))
+    instructions5 = textThing("", 150, sH-100, pygame.Color(0,0,0))
     openingTextList.append(instructions5)
 
     # Game logic initializations (Can still be further reduced by a player and coin library, though I don't know
@@ -50,6 +50,7 @@ def main():
 
     trueSpeed = 5
     directionalSpeed = 5
+    whatYaWantAsPlayerHp = 10
     coinDead = True
     playerDead = True
     phase = phases()
@@ -70,8 +71,8 @@ def main():
             pX = sW/2
             pY = sH/2
             pSize = 25
-            playerHealth = 5
-            maxPlayerHealth = 5
+            playerHealth = whatYaWantAsPlayerHp
+            maxPlayerHealth = whatYaWantAsPlayerHp
             isUp = False
             isDown = False
             isLeft = False
@@ -156,7 +157,7 @@ def main():
                     playerHealth -= 1
                     if playerHealth == 0:
                         playerDead = True
-                        instructions5.updateText("Last Score Was " + str(scoreInt))
+                        instructions5.updateText("Last Score Was " + str(scoreInt) + " on difficulty " + phase.getDifficulty())
                 e.draw(screen)
                 e.update()
                 if (e.isAlive == False):

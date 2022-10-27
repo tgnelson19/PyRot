@@ -73,5 +73,5 @@ class entity:
         pygame.draw.rect(screen, self.hue, pygame.Rect(self.posX, self.posY, self.size, self.size))
 
     def contact(self, pX, pY):
-        if abs(self.posX - pX) < self.size*4/5 and abs(self.posY - pY) < self.size*4/5:
+        if abs(self.posX - pX) < self.size and abs(self.posY - pY) < self.size:
             return True

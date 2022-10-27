@@ -230,27 +230,33 @@ class phases:
         speed = 5
         amp = 5
         freq = 0.1
-        
-        if self.overallCounter < 91:
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
-            angle = angle + pi/2
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
-            angle = angle + pi/2
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
-            angle = angle + pi/2
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
-            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
+        if self.overallCounter < 31:
             self.overallCounter +=1
             self.secondaryCounter +=1
-            if(self.overallCounter == 90):
-                self.overallCounter = 0
-        if (self.secondaryCounter > 271):
-            self.overallCounter = 92
+        elif self.overallCounter < 121:
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
+            self.makeAStraightShooter(entityList, sW/2, sH/2, angle, speed/2, 25)
+            angle = angle + pi/2
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
+            self.makeAStraightShooter(entityList, sW/2, sH/2, angle, speed/2, 25)
+            angle = angle + pi/2
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
+            self.makeAStraightShooter(entityList, sW/2, sH/2, angle, speed/2, 25)
+            angle = angle + pi/2
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, amp, freq)
+            self.makeASinusoid(entityList, sW/2 + radius*cos(angle), sH/2 - radius*sin(angle), pi + angle, speed, 25, -amp, freq)
+            self.makeAStraightShooter(entityList, sW/2, sH/2, angle, speed/2, 25)
+            self.overallCounter +=1
             self.secondaryCounter +=1
-        if( self.secondaryCounter > 330):
+            if(self.overallCounter == 121):
+                self.overallCounter = 31
+        if (self.secondaryCounter > 301):
+            self.overallCounter = 122
+            self.secondaryCounter +=1
+        if( self.secondaryCounter > 360):
             self.secondaryCounter = 0
             self.overallCounter = 0
             self.nextPhase()
