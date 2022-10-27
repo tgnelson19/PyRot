@@ -19,5 +19,6 @@ class bullet(entity):
         self.size = 25
         self.bFunction = bulletFunction()
         self.radius = sqrt(sW^2 + sH^2)
+        self.canHitPlayer = True
 
     

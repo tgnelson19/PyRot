@@ -19,6 +19,13 @@ class entity:
         self.bFunction = bulletFunction()
         self.bFunction.setNameAndStuff("boss", 0,0)
         self.radius = 735
+        self.canHitPlayer = True
+
+    def getCHP(self):
+        return self.canHitPlayer
+
+    def setCHP(self, chp):
+        self.canHitPlayer = chp
         
         
 

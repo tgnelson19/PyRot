@@ -23,9 +23,8 @@ class phases:
         self.easyPhaseList = ["easyjoke", "feeble"]
         self.normalPhaseList = ["normaljoke", "slowminigun", "fastminigun", "thirdcounter"]
         self.hardPhaseList = ["hardjoke", "patience", "firewalls"]
-        self.impossiblePhaseList = ["leucsins", "rampage", "impossiblejoke", "rotatebeam"]
-        self.testingPhaseList = []
-        self.bossi = boss()
+        self.impossiblePhaseList = ["rotatebeam", "leucsins", "rampage", "impossiblejoke"]
+        self.testingPhaseList = ["testing"]
         self.numSides = 0
         self.out = True
         self.secondaryCounter = 0
@@ -38,7 +37,6 @@ class phases:
         self.minigunCounter = 0
         self.leucCounter = 0
         self.overallCounter = 0
-        self.bossi = boss()
         self.numSides = 0
         self.out = True
 
@@ -67,9 +65,6 @@ class phases:
         elif(self.difficulty == "Testing"):
             self.phaseName = self.testingPhaseList[0]
 
-    def setBoss(self, boss):
-        self.bossi = boss
-
     def setPhaseName(self, phaseName):
         self.phaseName = phaseName
 
@@ -91,37 +86,39 @@ class phases:
     def getDifficulty(self):
         return self.difficulty
 
-    def runPhase(self, entityList):
+    def runPhase(self, entityList, bossi):
         if (self.phaseName == "nothing"):
             self.nextPhase()
         elif(self.phaseName == "easyjoke"):
-            self.runEasyJoke(entityList, self.bossi)
+            self.runEasyJoke(entityList, bossi)
         elif(self.phaseName == "normaljoke"):
-            self.runNormalJoke(entityList, self.bossi)
+            self.runNormalJoke(entityList, bossi)
         elif(self.phaseName == "hardjoke"):
-            self.runHardJoke(entityList, self.bossi)
+            self.runHardJoke(entityList, bossi)
         elif(self.phaseName == "impossiblejoke"):
-            self.runImpossibleJoke(entityList, self.bossi)
+            self.runImpossibleJoke(entityList, bossi)
         elif (self.phaseName == "patience"):
-            self.runPatience(entityList, self.bossi)
+            self.runPatience(entityList, bossi)
         elif (self.phaseName == "firewalls"):
-            self.runFirewall(entityList, self.bossi)
+            self.runFirewall(entityList,bossi)
         elif (self.phaseName == "slowminigun"):
-            self.runSlowMinigun(entityList, self.bossi)
+            self.runSlowMinigun(entityList, bossi)
         elif (self.phaseName == "fastminigun"):
-            self.runFastMinigun(entityList, self.bossi)
+            self.runFastMinigun(entityList, bossi)
         elif (self.phaseName == "thirdcounter"):
-            self.runThirdCounter(entityList, self.bossi)
+            self.runThirdCounter(entityList,bossi)
         elif (self.phaseName == "leucsins"):
-            self.runLeucSins(entityList, self.bossi)
+            self.runLeucSins(entityList,bossi)
         elif (self.phaseName == "sinpain"):
-            self.runSinPain(entityList, self.bossi)
+            self.runSinPain(entityList, bossi)
         elif (self.phaseName == "feeble"):
-            self.runFeeble(entityList, self.bossi)
+            self.runFeeble(entityList, bossi)
         elif(self.phaseName == "rotatebeam"):
-            self.runRotateBeam(entityList, self.bossi)
+            self.runRotateBeam(entityList, bossi)
         elif(self.phaseName == "rampage"):
-            self.runRampage(entityList, self.bossi)
+            self.runRampage(entityList, bossi)
+        elif(self.phaseName == "testing"):
+            self.runTesting(entityList, bossi)
 
     def setNewTickSpeed(self, tSpeed): 
         pygame.time.set_timer(pygame.USEREVENT, tSpeed)
@@ -193,6 +190,11 @@ class phases:
 
     def runImpossibleJoke(self, entityList, bossi):
         self.nextPhase()
+
+    def runTesting(self, entityList, bossi):
+        self.setNewTickSpeed(200)
+        bossi.goToPos(200,200)
+
 
     def runRampage(self, entityList, bossi):
         self.setNewTickSpeed(125)
