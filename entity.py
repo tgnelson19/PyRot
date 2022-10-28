@@ -64,6 +64,9 @@ class entity:
         elif(self.bFunction.getName()=="boss"):
             self.posX +=  self.speed*cos(self.dir)
             self.posY -=  self.speed*sin(self.dir)
+        elif(self.bFunction.getName() == "powerUp"):
+            self.posX = self.posX
+            self.posY = self.posY
 
 
         if (self.posX) < (-120) or (self.posX) > (1400) or self.posY < (-450) or self.posY > (1120):

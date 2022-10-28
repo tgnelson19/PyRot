@@ -37,6 +37,7 @@ class phases:
         self.minigunCounter = 0
         self.leucCounter = 0
         self.overallCounter = 0
+        self.secondaryCounter = 0
         self.numSides = 0
         self.out = True
 
