@@ -15,6 +15,12 @@ class textThing():
         self.rect = self.letters.get_rect()
         self.rect.topleft = (posX, posY)
 
+    def drawANewText(self, text, posX, posY, color, screen):
+        self.letters = self.font.render(text, True, color)
+        self.rect = self.letters.get_rect()
+        self.rect.topleft = (posX, posY)
+        screen.blit(self.letters, self.rect)
+
 
     def getText(self):
         return self.text

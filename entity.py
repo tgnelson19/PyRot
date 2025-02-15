@@ -1,4 +1,4 @@
-from math import cos, sin, pi
+from math import cos, sin, pi, sqrt
 from bulletFunction import bulletFunction
 import pygame
 
@@ -17,6 +17,15 @@ class entity:
         self.hue = pygame.Color(255,255,255)
         self.name = "none"
         self.bFunction = bulletFunction()
+        self.bFunction.setNameAndStuff("boss", 0,0)
+        self.radius = 735
+        self.canHitPlayer = True
+
+    def getCHP(self):
+        return self.canHitPlayer
+
+    def setCHP(self, chp):
+        self.canHitPlayer = chp
         
         
 
@@ -52,14 +61,20 @@ class entity:
             self.posX += self.speed*cos(self.dir)  +  (self.bFunction.getAmp()*cos(self.bFunction.getTicker()))*sin(self.dir)
             self.posY -= self.speed*sin(self.dir)  -  (self.bFunction.getAmp()*cos(self.bFunction.getTicker()))*cos(self.dir)
             self.bFunction.upTicker(self.bFunction.getFrequency())
+        elif(self.bFunction.getName()=="boss"):
+            self.posX +=  self.speed*cos(self.dir)
+            self.posY -=  self.speed*sin(self.dir)
+        elif(self.bFunction.getName() == "powerUp"):
+            self.posX = self.posX
+            self.posY = self.posY
 
 
-        if (self.posX) < (-100 - self.size) or (self.posX) > (100+ sW + self.size) or (self.posY) < (-100 -0 - self.size) or (self.posY) > (100 + sH + self.size):
+        if (self.posX) < (-120) or (self.posX) > (1400) or self.posY < (-450) or self.posY > (1120):
             self.isAlive = False
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.hue, pygame.Rect(self.posX, self.posY, self.size, self.size))
 
     def contact(self, pX, pY):
-        if abs(self.posX - pX) < self.size*4/5 and abs(self.posY - pY) < self.size*4/5:
+        if abs(self.posX - pX) < self.size and abs(self.posY - pY) < self.size:
             return True
